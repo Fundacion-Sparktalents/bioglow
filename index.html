@@ -175,6 +175,46 @@ td.hl{outline:2px solid var(--ink);outline-offset:-2px;font-weight:700}
 @media (max-width:420px){.tab{font-size:13px;padding:10px 12px;white-space:nowrap;flex:0 0 auto}.tabs{gap:4px;padding:4px}}
 #mpick .jbtn{font-size:14px;padding:10px 2px;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ── v2: navegación por tipo de usuario ── */
+.topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;display:flex;align-items:center;gap:10px;margin:16px 0 4px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px}
+.nav-home{flex:none;display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--paper);text-decoration:none;
+  font:700 15px var(--body);padding:10px 14px;border-radius:10px}
+.crumb{min-width:0;font-size:15px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crumb a{color:var(--ink);font-weight:700;text-decoration:none}
+.choose{display:grid;gap:14px;margin:22px 0 10px}
+@media (min-width:700px){.choose{grid-template-columns:1fr 1fr}}
+.choice{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--line);
+  border-radius:22px;padding:22px 20px;min-height:150px;justify-content:center}
+.choice:active{transform:scale(.99)}
+.choice .ico{font-size:34px;line-height:1}
+.choice b{font:800 28px/1.1 var(--display);letter-spacing:-.01em}
+.choice span{color:var(--ink-soft);font-size:16px}
+.choice.team{border-color:var(--azul);background:var(--azul-t)}
+.choice.vol{border-color:var(--verde);background:var(--verde-t)}
+.resume{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.resume a{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:700;font-size:15px;color:var(--ink);text-decoration:none}
+.roles{display:grid;gap:10px;margin-top:8px}
+@media (min-width:700px){.roles{grid-template-columns:1fr 1fr}}
+.role{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.role .ico{font-size:28px;flex:none}
+.role b{display:block;font:700 20px var(--display)}
+.role span{display:block;color:var(--ink-soft);font-size:15px}
+.score-btn{display:block;text-align:center;text-decoration:none;margin:4px 0 16px;background:var(--glow);color:#06281E;border-radius:14px;
+  padding:14px 16px;font:800 19px var(--display)}
+.change-btn{display:block;text-align:center;text-decoration:none;margin:22px 0 0}
+#nowteam .nowcard{margin-top:14px}
+/* Plano por ronda: color según el lado de la mesa */
+.field.me[data-lado="rojo"]{background:var(--rojo);color:#fff}
+.field.me[data-lado="azul"]{background:var(--azul);color:#fff}
+.field.partner{outline:0;background:var(--card)}
+.field.partner[data-lado="rojo"]{box-shadow:inset 0 0 0 3px var(--rojo)}
+.field.partner[data-lado="azul"]{box-shadow:inset 0 0 0 3px var(--azul)}
+.field.partner[data-lado="rojo"] small,.field.partner[data-lado="rojo"] em{color:var(--rojo)}
+.field.partner[data-lado="azul"] small,.field.partner[data-lado="azul"] em{color:var(--azul)}
+:root[data-theme="dark"] .field.partner[data-lado="azul"] small,:root[data-theme="dark"] .field.partner[data-lado="azul"] em{color:#7FA6F0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .field.partner[data-lado="azul"] small,:root:not([data-theme="light"]) .field.partner[data-lado="azul"] em{color:#7FA6F0}}
 </style>
 </head>
 <body>
@@ -184,61 +224,83 @@ td.hl{outline:2px solid var(--ink);outline-offset:-2px;font-weight:700}
     <p>BIOGLOW™ Future Edition</p>
     <h1>Torneo BIOGLOW: horarios</h1>
     <p class="variant">Sábado 17 de octubre · Colegio Huinganal</p>
-    <p>Busca tu equipo en el Índice o elige tu número en Mi equipo para ver tu día completo.</p>
+    <p>Elige si eres de un equipo o voluntario para ver tu información del día.</p>
   </header>
 
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="t-idx" aria-selected="true" aria-controls="p-idx">Índice</button>
-    <button class="tab" role="tab" id="t-all" aria-selected="false" aria-controls="p-all">Todo el día</button>
-    <button class="tab" role="tab" id="t-mine" aria-selected="false" aria-controls="p-mine">Mi equipo</button>
-    <button class="tab" role="tab" id="t-plan" aria-selected="false" aria-controls="p-plan">Mis rondas</button>
-    <button class="tab" role="tab" id="t-jue" aria-selected="false" aria-controls="p-jue">Consejeros</button>
-    <button class="tab" role="tab" id="t-mes" aria-selected="false" aria-controls="p-mes">Árbitros</button>
-    <button class="tab" role="tab" id="t-lla" aria-selected="false" aria-controls="p-lla">Llamados</button>
-    <button class="tab" role="tab" id="t-inf" aria-selected="false" aria-controls="p-inf">Info</button>
-  </div>
+  <nav class="topnav" id="topnav" aria-label="Navegación" hidden>
+    <a class="nav-home" href="#inicio">⌂ Inicio</a><span class="crumb" id="crumb"></span>
+  </nav>
 
-  <section id="p-mine" role="tabpanel" aria-labelledby="t-mine" hidden>
-    <div id="picker"></div>
-    <p class="hint">¿No recuerdas el número de tu equipo? Búscalo en el Índice.</p>
-    <div id="mine"></div>
+  <section id="v-home" class="view">
+    <div class="choose">
+      <a class="choice team" href="#equipos"><span class="ico" aria-hidden="true">🤖</span><b>Soy de un equipo</b><span>Tu horario completo, tus mesas, rondas y visitas.</span></a>
+      <a class="choice vol" href="#voluntarios"><span class="ico" aria-hidden="true">🙋</span><b>Soy voluntario</b><span>Árbitros, consejeros, mesas de estrategia y programa.</span></a>
+    </div>
+    <div id="resume"></div>
   </section>
 
-  <section id="p-idx" role="tabpanel" aria-labelledby="t-idx">
-    <h2>Índice de equipos</h2>
+  <section id="v-equipos" class="view" hidden>
+    <h2>Elige tu equipo</h2>
+    <div id="picker"></div>
+    <h2>¿No recuerdas el número?</h2>
     <label class="search"><span>Busca por número, nombre del equipo o colegio</span>
       <input id="q" type="search" placeholder="Ej.: 2011, Medialab o San Ignacio" autocomplete="off"></label>
     <ul id="idx" class="idx"></ul>
     <p class="note" id="idx-empty" hidden>No hay equipos con ese nombre. Prueba con otra palabra o con el número.</p>
   </section>
 
-  <section id="p-plan" role="tabpanel" aria-labelledby="t-plan" hidden>
-    <h2>Mis rondas en la Zona de Competencia</h2>
-    <div id="plan"><p class="note">Primero elige tu equipo en el Índice o en Mi equipo.</p></div>
+  <section id="v-equipo" class="view" hidden>
+    <div id="mine"></div>
+    <h2 id="plan-h">Mis rondas en la Zona de Competencia</h2>
+    <div id="plan"></div>
+    <h2>Info para los equipos</h2>
+    <div id="info-team"></div>
+    <a class="plan-btn change-btn" href="#equipos">Cambiar de equipo</a>
   </section>
 
-  <section id="p-jue" role="tabpanel" aria-labelledby="t-jue" hidden>
+  <section id="v-voluntarios" class="view" hidden>
+    <h2>¿Cuál es tu rol?</h2>
+    <div class="roles">
+      <a class="role" href="#arbitro"><span class="ico" aria-hidden="true">🏁</span><span><b>Árbitro</b><span>Horario de tu mesa e ingreso de puntajes</span></span></a>
+      <a class="role" href="#consejero"><span class="ico" aria-hidden="true">🧭</span><span><b>Consejero</b><span>Calendario de tu grupo y visitas a pits</span></span></a>
+      <a class="role" href="#llamados"><span class="ico" aria-hidden="true">📣</span><span><b>Mesas de estrategia y presentador</b><span>Llamados a las mesas en orden</span></span></a>
+      <a class="role" href="#programa"><span class="ico" aria-hidden="true">🗓️</span><span><b>Programa general</b><span>Programa del día, visitas y todas las rondas</span></span></a>
+    </div>
+  </section>
+
+  <section id="v-arbitro" class="view" hidden>
+    <h2>Árbitros: horario por mesa</h2>
+    <p class="note" style="margin-top:0">Elige tu mesa para ver qué equipos llegan, en qué minuto y los tiempos de cada turno. En cada mesa trabajan 2 árbitros, uno por lado.</p>
+    <a class="score-btn" href="puntaje.html">Ingresar puntajes</a>
+    <div class="jgroups" id="mpick" style="grid-template-columns:repeat(5,1fr)"></div>
+    <div id="mcal"></div>  </section>
+
+  <section id="v-consejero" class="view" hidden>
     <h2>Calendario de consejeros</h2>
     <p class="note" style="margin-top:0">Elige tu grupo para ver dónde tienes que estar en cada momento de la mañana.</p>
     <div class="jgroups" id="jpick"></div>
-    <div id="jcal"></div>
-  </section>
+    <div id="jcal"></div>  </section>
 
-  <section id="p-mes" role="tabpanel" aria-labelledby="t-mes" hidden>
-    <h2>Árbitros: horario por mesa</h2>
-    <p class="note" style="margin-top:0">Elige tu mesa para ver qué equipos llegan, en qué minuto y los tiempos de cada turno. En cada mesa trabajan 2 árbitros, uno por lado.</p>
-    <div class="jgroups" id="mpick" style="grid-template-columns:repeat(5,1fr)"></div>
-    <div id="mcal"></div>
-  </section>
-
-  <section id="p-lla" role="tabpanel" aria-labelledby="t-lla" hidden>
+  <section id="v-llamados" class="view" hidden>
     <h2>Llamados a las mesas</h2>
     <p class="note" style="margin-top:0">Para el presentador y los voluntarios de las mesas de estrategia: en orden cronológico, qué equipos deben estar en cada mesa de estrategia. La reunión empieza 10 minutos antes del turno (8 en la tarde) y entran a la mesa 2 minutos antes.</p>
-    <div id="llist"></div>
+    <div id="llist"></div>  </section>
+
+  <section id="v-programa" class="view" hidden>
+    <div id="p-all">
+    <h2>Programa del día</h2>
+    <div class="scroll"><table id="tbl-prog"></table></div>
+    <h2>La mañana: ciclo de cada ronda</h2>
+    <p class="note">Reunión de estrategia de 10 min en la mesa de estrategia de su mesa, entrada a la mesa 2 min antes, ronda oficial con explicación de reglas del árbitro y unos 20 min de mejora en el pit.</p>
+    <h2>Visitas de consejeros</h2>
+    <div class="scroll"><table id="tbl-pit"></table></div>
+    <p class="note">8 grupos de consejeros. Visita 1: proceso y diseño. Visita 2: estrategia y colaboración. 12 minutos cada una, con guía de preguntas y nunca durante el tiempo de mejora. Entre visitas, los consejeros acompañan las reuniones de estrategia y observan las rondas.</p>
+    <h2>Rondas oficiales (mañana y tarde)</h2>
+    <div class="scroll"><table id="tbl-match"></table></div>
+    <p class="note">Primer número: lado rojo; segundo: lado azul. Las 5 rondas son oficiales.</p>    </div>
   </section>
 
-
-  <section id="p-inf" role="tabpanel" aria-labelledby="t-inf" hidden>
+  <section id="v-info" class="view" hidden>
     <h2>Info para los equipos</h2>
     <div class="infocard"><h3>Horarios clave</h3><ul>
       <li><b>9:15–9:55</b> · Llegada, registro con el código QR y montaje del pit. Después del registro, el coach retira las pulseras del almuerzo en la mesa de registro.</li>
@@ -260,21 +322,7 @@ td.hl{outline:2px solid var(--ink);outline-offset:-2px;font-weight:700}
     <div class="infocard"><h3>¿A quién pedir ayuda?</h3><ul>
       <li><b>Dudas de reglas en la Zona de Competencia:</b> los árbitros de su mesa o un representante de SparkTalents.</li>
       <li><b>Llegada y dudas generales:</b> el registro.</li>
-      <li><b>Si alguien se siente mal:</b> el punto de primeros auxilios, y avisar a su coach.</li></ul></div>
-  </section>
-
-  <section id="p-all" role="tabpanel" aria-labelledby="t-all" hidden>
-    <h2>Programa del día</h2>
-    <div class="scroll"><table id="tbl-prog"></table></div>
-    <h2>La mañana: ciclo de cada ronda</h2>
-    <p class="note">Reunión de estrategia de 10 min en la mesa de estrategia de su mesa, entrada a la mesa 2 min antes, ronda oficial con explicación de reglas del árbitro y unos 20 min de mejora en el pit.</p>
-    <h2>Visitas de consejeros</h2>
-    <div class="scroll"><table id="tbl-pit"></table></div>
-    <p class="note">8 grupos de consejeros. Visita 1: proceso y diseño. Visita 2: estrategia y colaboración. 12 minutos cada una, con guía de preguntas y nunca durante el tiempo de mejora. Entre visitas, los consejeros acompañan las reuniones de estrategia y observan las rondas.</p>
-    <h2>Rondas oficiales (mañana y tarde)</h2>
-    <div class="scroll"><table id="tbl-match"></table></div>
-    <p class="note">Primer número: lado rojo; segundo: lado azul. Las 5 rondas son oficiales.</p>
-  </section>
+      <li><b>Si alguien se siente mal:</b> el punto de primeros auxilios, y avisar a su coach.</li></ul></div>  </section>
 </div>
 
 <script>
@@ -375,7 +423,7 @@ function renderPlan(t,r){
   const tr=TURNS5.find(z=>z[1]===r&&z[2]===x.st);const bym={};tr[4].forEach(([m,a,b])=>bym[m]=[a,isSolo(b)?null:b]);
   const pt=x.p?TEAMS[byNum(x.p)-1]:null;
   const field=(v,lab)=>{const mine=v===n,part=v&&v===x.p;
-    return `<div class="field ${mine?'me':''} ${part?'partner':''}" ${mine?'style="background:var(--azul)"':''}><small>Lado ${lab}</small><b>${v||'—'}</b>${mine?'<em>Tu equipo</em>':part?'<em>Compañero</em>':''}</div>`};
+    return `<div class="field ${mine?'me':''} ${part?'partner':''}" data-lado="${lab}"><small>Lado ${lab}</small><b>${v||'—'}</b>${mine?'<em>Tu equipo</em>':part?'<em>Compañero</em>':''}</div>`};
   el.innerHTML=`
     <div class="rsel" role="group" aria-label="Elegir ronda">${[1,2,3,4,5].map(z=>`<button class="rbtn" data-r="${z}" aria-pressed="${z===r}">R${z}</button>`).join('')}</div>
     <div class="plan-info">
@@ -522,21 +570,6 @@ function renderAll(){
     return `<tr><td>${fmt(st)}–${fmt(st+d)}</td><td>R${r}</td>${[1,2,3,4,5].map(ms=>{const z=bym[ms];if(!z)return '<td class="muted">—</td>';const [a,b]=z;return isSolo(b)?`<td data-t="${byNum(a)}">${a} + ${GUEST[r]} (invitado)</td>`:`<td data-t="${byNum(a)}" data-u="${byNum(b)}">${a} / ${b}</td>`}).join('')}</tr>`}).join('');
 }
 
-function showTab(which){
-  try{const tb=document.getElementById('t-'+which);tb.parentElement.scrollTo({left:tb.offsetLeft-tb.parentElement.clientWidth/2+tb.clientWidth/2,behavior:'auto'})}catch(e){}
-  ['idx','all','mine','plan','jue','mes','lla','inf'].forEach(w=>{
-    document.getElementById('t-'+w).setAttribute('aria-selected',w===which);
-    document.getElementById('p-'+w).hidden=w!==which;
-  });
-}
-['idx','all','mine','plan','jue','mes','lla','inf'].forEach(w=>document.getElementById('t-'+w).onclick=()=>{showTab(w);if(w==='inf')renderCuaderno()});
-renderCuaderno();if(/info/.test(location.hash))setTimeout(()=>showTab('inf'),0);
-renderLlamados();if(/llamados/.test(location.hash))setTimeout(()=>showTab('lla'),0);
-renderMPick();
-{let mg=null;const mh=location.hash.match(/mesa-(\d)/);if(mh)mg=+mh[1];if(!mg){try{mg=+localStorage.getItem('bioglow-mesa-b2')}catch(e){}}if(mg>=1&&mg<=5)selectM(mg);if(mh)setTimeout(()=>showTab('mes'),0);}
-renderJPick();
-{let jg=null;const jm=location.hash.match(/(?:jueces|consejeros)-(\d)/);if(jm)jg=+jm[1];if(!jg){try{jg=+localStorage.getItem('bioglow-jueces-b2')}catch(e){}}if(jg>=1&&jg<=8)selectJ(jg);if(jm)setTimeout(()=>showTab('jue'),0);}
-
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 function renderIdx(q=''){
   const nq=norm(q.trim());
@@ -549,16 +582,80 @@ function renderIdx(q=''){
     </button></li>`).join('');
   document.getElementById('idx-empty').hidden=items.length>0;
 }
-document.getElementById('q').addEventListener('input',e=>renderIdx(e.target.value));
-document.getElementById('idx').addEventListener('click',e=>{const b=e.target.closest('.idx-row');if(b){showTab('mine');select(+b.dataset.t,true)}});
-renderIdx();
+/* ── v2: navegación (reemplaza las pestañas del original) ── */
+const VIEWS=['home','equipos','equipo','voluntarios','arbitro','consejero','llamados','programa','info'];
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const crumbLink=(href,txt)=>`<a href="${href}">${txt}</a>`;
+function view(v,crumb){
+  VIEWS.forEach(x=>document.getElementById('v-'+x).hidden=x!==v);
+  document.getElementById('topnav').hidden=v==='home';
+  document.getElementById('crumb').innerHTML=crumb||'';
+}
+// Compatibilidad: algunas funciones originales llaman showTab().
+function showTab(w){
+  if(w==='plan'){const h=document.getElementById('plan-h');if(h&&!document.getElementById('v-equipo').hidden){h.scrollIntoView({block:'start'});return}}
+  const map={idx:'#equipos',mine:'#equipos',plan:'#equipos',jue:'#consejero',mes:'#arbitro',lla:'#llamados',all:'#programa',inf:'#info'};
+  if(map[w]&&location.hash!==map[w])location.hash=map[w];
+}
+function teamLabel(t){return NUM(t)+(TEAMS[t-1][1]?' · '+TEAMS[t-1][1]:'')}
+function renderNow(t){
+  const st=teamStops(t),now=nowMin();let html;
+  if(isEventDay()){
+    const cur=st.filter(s=>toMin(s.s)<=now&&now<toMin(s.e));const nx=st.find(s=>toMin(s.s)>now);
+    html=`<div class="nowcard"><h3>Ahora</h3>${cur.length?cur.map(s=>`<p class="big">${s.title}</p><p class="note" style="margin:0">${s.s}–${s.e}</p>`).join(''):`<p style="margin:0">${now>=toMin('16:15')?'El evento terminó. ¡Gracias por participar!':'Sin actividad fija en este momento.'}</p>`}${nx?`<p style="margin:10px 0 0">Siguiente: <b>${nx.title}</b> a las ${nx.s} <span class="cd">${cdTxt(toMin(nx.s)-now)}</span></p>`:''}</div>`;
+  }else{
+    const first=st[0];
+    html=`<div class="nowcard"><h3>Tu día empieza</h3><p class="big">${first.s} · ${first.title}</p><p class="note" style="margin:0">El sábado 17 de octubre aquí verás tu actividad actual y la siguiente, con cuenta regresiva.</p></div>`;
+  }
+  const mine=document.getElementById('mine'),mt=mine.querySelector('.mytables');
+  let box=document.getElementById('nowteam');if(!box){box=document.createElement('div');box.id='nowteam'}
+  box.innerHTML=html;if(mt)mine.insertBefore(box,mt);
+}
+function renderResume(){
+  const out=[];const n=+lsGet('bioglow-team-b2'),t=n?byNum(n):null;
+  if(t)out.push(`<a href="#equipo-${n}">🤖 Equipo ${teamLabel(t)}</a>`);
+  const m=+lsGet('bioglow-mesa-b2');if(m>=1&&m<=5)out.push(`<a href="#arbitro-mesa-${m}">🏁 Árbitro · Mesa ${m}</a>`);
+  const g=+lsGet('bioglow-jueces-b2');if(g>=1&&g<=8)out.push(`<a href="#consejero-${g}">🧭 Consejero · Grupo ${g}</a>`);
+  document.getElementById('resume').innerHTML=out.length?`<p class="note" style="margin:0 0 8px">Continuar donde quedaste:</p><div class="resume">${out.join('')}</div>`:'';
+}
+let curTeam=null;
+function route(){
+  const h=decodeURIComponent(location.hash.replace(/^#/,''));let m;curTeam=null;
+  if((m=h.match(/^equipo-(\d+)$/))&&byNum(+m[1])){
+    const t=byNum(+m[1]);curTeam=t;
+    view('equipo',crumbLink('#equipos','Equipos')+' › '+teamLabel(t));
+    select(t,false);renderNow(t);
+    const tp=document.getElementById('to-plan');if(tp)tp.onclick=()=>showTab('plan');
+    return;
+  }
+  if(h==='equipos'||h==='idx'){view('equipos','Equipos');return}
+  if(h==='voluntarios'){view('voluntarios','Voluntarios');return}
+  if((m=h.match(/^(?:arbitro-)?mesa-([1-5])$/))){selectM(+m[1]);view('arbitro',crumbLink('#voluntarios','Voluntarios')+' › Árbitros · Mesa '+m[1]);return}
+  if(h==='arbitro'||h==='arbitros'){const s=+lsGet('bioglow-mesa-b2');if(s>=1&&s<=5)selectM(s);view('arbitro',crumbLink('#voluntarios','Voluntarios')+' › Árbitros');return}
+  if((m=h.match(/^(?:consejeros?|jueces)-([1-8])$/))){selectJ(+m[1]);view('consejero',crumbLink('#voluntarios','Voluntarios')+' › Consejeros · Grupo '+m[1]);return}
+  if(h==='consejero'||h==='consejeros'){const s=+lsGet('bioglow-jueces-b2');if(s>=1&&s<=8)selectJ(s);view('consejero',crumbLink('#voluntarios','Voluntarios')+' › Consejeros');return}
+  if(h==='llamados'){view('llamados',crumbLink('#voluntarios','Voluntarios')+' › Llamados');return}
+  if(h==='programa'||h==='todo'){view('programa',crumbLink('#voluntarios','Voluntarios')+' › Programa general');return}
+  if(h==='info'){view('info','Info para los equipos');return}
+  view('home');renderResume();
+}
 
-renderPicker();renderAll();
-let start=null;
-const hm=location.hash.match(/equipo-(\d+)/);
-if(hm)start=byNum(+hm[1]);
-if(!start){try{start=byNum(+localStorage.getItem('bioglow-team-b2'))}catch(e){}}
-if(start){select(start,false);showTab('mine');}
+// Render inicial (las mismas funciones del original)
+renderLlamados();renderMPick();renderJPick();
+document.getElementById('q').addEventListener('input',e=>renderIdx(e.target.value));
+renderIdx();renderPicker();renderAll();
+document.getElementById('info-team').innerHTML=document.getElementById('v-info').innerHTML.replace(/<h2>Info para los equipos<\/h2>/,'');
+
+// Elegir equipo/mesa/grupo deja la elección en la URL (el botón atrás vuelve a la lista).
+// capture: corre antes del listener original (que hace replaceState) para que quede la entrada en el historial
+document.getElementById('picker').addEventListener('click',e=>{const b=e.target.closest('.team');if(b)location.hash='equipo-'+NUM(+b.dataset.t)},true);
+document.getElementById('idx').addEventListener('click',e=>{const b=e.target.closest('.idx-row');if(b)location.hash='equipo-'+NUM(+b.dataset.t)});
+document.getElementById('mpick').addEventListener('click',e=>{const b=e.target.closest('.jbtn');if(b){history.replaceState(null,'','#arbitro-mesa-'+b.dataset.m);document.getElementById('crumb').innerHTML=crumbLink('#voluntarios','Voluntarios')+' › Árbitros · Mesa '+b.dataset.m}});
+document.getElementById('jpick').addEventListener('click',e=>{const b=e.target.closest('.jbtn');if(b){history.replaceState(null,'','#consejero-'+b.dataset.g);document.getElementById('crumb').innerHTML=crumbLink('#voluntarios','Voluntarios')+' › Consejeros · Grupo '+b.dataset.g}});
+
+window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0)});
+route();
+setInterval(()=>{if(curTeam&&isEventDay())renderNow(curTeam)},30000);
 </script>
 <script>
 (function(){

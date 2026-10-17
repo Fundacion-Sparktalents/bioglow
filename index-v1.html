@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Horarios · Torneo BIOGLOW Future Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF4EE; --card:#FFFFFF; --ink:#12332B; --ink-soft:#4A6760; --line:#CFDDD4;
+  --glow:#12B886; --meet-bg:#FFF3D6; --meet-line:#E5B94E; --meet-dot:#F2B705; --glow-soft:#D3F5E8; --meal:#ECE4F7; --meal-ink:#4B2E83;
+  --rojo:#E0473C; --azul:#2F6FDB; --verde:#2E9E5B; --amarillo:#F2B705;
+  --rojo-t:#FBE1DF; --azul-t:#DEE8FA; --verde-t:#DCF1E3; --amarillo-t:#FDF0C4;
+  --display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --meet-bg:#3A3013; --meet-line:#8A6F22; --meet-dot:#F2C14E;
+    --paper:#0F1F1B; --card:#172C27; --ink:#E4F2EC; --ink-soft:#9DBAB1; --line:#2B4640;
+    --glow:#3DDBA6; --glow-soft:#1B3F34; --meal:#2E2540; --meal-ink:#CDB8F2;
+    --rojo-t:#4A2421; --azul-t:#1E2F4F; --verde-t:#1C3A29; --amarillo-t:#463A12;
+  }
+}
+:root[data-theme="dark"]{
+  --meet-bg:#3A3013; --meet-line:#8A6F22; --meet-dot:#F2C14E;
+  --paper:#0F1F1B; --card:#172C27; --ink:#E4F2EC; --ink-soft:#9DBAB1; --line:#2B4640;
+  --glow:#3DDBA6; --glow-soft:#1B3F34; --meal:#2E2540; --meal-ink:#CDB8F2;
+  --rojo-t:#4A2421; --azul-t:#1E2F4F; --verde-t:#1C3A29; --amarillo-t:#463A12;
+}
+:root[data-theme="dark"]{color-scheme:dark}
+:root[data-theme="light"]{color-scheme:light}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 24px 48px}
+header{position:relative}
+.theme-sw{position:absolute;top:0;right:0;display:flex;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px}
+.theme-sw button{border:0;background:transparent;color:var(--ink-soft);font:700 13px var(--body);padding:6px 11px;border-radius:999px;cursor:pointer}
+.theme-sw button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+@media (max-width:560px){.theme-sw{position:static;display:inline-flex;margin-bottom:10px}}
+header h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,7vw,46px);line-height:1.02;letter-spacing:-.02em;margin:8px 0 4px}
+header p{margin:0;color:var(--ink-soft)}
+.tabs{display:flex;gap:6px;margin:22px 0 18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.tab{flex:1;border:0;background:transparent;color:var(--ink);font:700 16px var(--body);padding:11px 8px;border-radius:10px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tab:focus-visible,.team:focus-visible,button:focus-visible{outline:3px solid var(--glow);outline-offset:2px}
+h2{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.01em;margin:28px 0 10px}
+.group{margin-bottom:12px}
+.group-name{font-weight:700;font-size:15px;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.teams{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.team-head .meta{line-height:1.35}
+.team{border:0;border-radius:999px;padding:12px 0;font:800 17px var(--display);cursor:pointer;color:#fff;position:relative;transition:transform .15s}
+.team[data-g="Amarillo"]{color:#3B2D00}
+.team[aria-pressed="true"]{box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--ink);transform:scale(1.04)}
+.variant{display:inline-block;margin:4px 0 0;font-weight:700;font-size:14px;color:var(--ink);background:var(--glow-soft);border-radius:999px;padding:3px 12px}
+.hint{color:var(--ink-soft);font-size:15px;margin:10px 0 0}
+#mine{margin-top:26px}
+.team-head{display:flex;align-items:center;gap:14px;padding:18px;border-radius:18px;color:#fff}
+.team-head[data-g="Amarillo"]{color:#3B2D00}
+.team-head .num{font:800 46px/0.9 var(--display);letter-spacing:-.03em}
+.team-head .meta{font-size:16px}
+.team-head .meta b{display:block;font:700 20px var(--display)}
+.share{margin-left:auto;border:2px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:8px 14px;font:700 15px var(--body);cursor:pointer}
+ol.timeline{list-style:none;margin:16px 0 0;padding:0;position:relative}
+ol.timeline::before{content:"";position:absolute;left:76px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.stop{display:grid;grid-template-columns:64px 1fr;gap:24px;padding:10px 0;position:relative}
+.stop::before{content:"";position:absolute;left:71px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--card);border:2px solid var(--ink-soft)}
+.stop.learn::before{border-color:var(--glow);background:var(--glow-soft)}
+.stop.game::before{background:var(--glow);border-color:var(--glow)}
+.stop.meal::before{border-color:var(--meal-ink);background:var(--meal)}
+.stop.must::before{background:var(--ink);border-color:var(--ink)}
+.time{font:700 16px var(--display);text-align:right;padding-top:8px;line-height:1.2}
+.time small{display:block;font:400 13px var(--body);color:var(--ink-soft)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 14px}
+.stop.game .box{border-color:var(--glow);background:var(--glow-soft)}
+.stop.meal .box{background:var(--meal)}
+.box b{font-family:var(--display);font-size:18px;font-weight:700;display:block;line-height:1.25}
+.box span{color:var(--ink-soft);font-size:15px;display:block}
+.box span.tag{display:inline-block;width:auto;font-size:13px;font-weight:700;border-radius:6px;padding:1px 7px;margin-top:5px;background:var(--ink);color:var(--paper)}
+.box span.tag.opt{background:transparent;color:var(--ink-soft);border:1px solid var(--line)}
+.stop.meet::before{background:var(--meet-dot);border-color:var(--meet-dot)}
+.stop.meet .box{background:var(--meet-bg);border-color:var(--meet-line)}
+.box span.tag.meet{background:var(--meet-dot);color:#3B2D00}
+.jgroups{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 18px}
+.jbtn{border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:14px;padding:10px 0;font:800 17px var(--display);cursor:pointer}
+.jbtn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.jsum{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.jsum span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;font-weight:700}
+.phases{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin-top:8px;font-size:14px;color:var(--ink-soft)}
+.phases b{font-size:14px!important;display:inline!important;font-family:var(--body)!important;color:var(--ink)}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.side{border-radius:10px;padding:8px 8px;font-size:13px;line-height:1.3;overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}
+.side.r{background:#FBE1DF;color:#5A1712}.side.a{background:#DEE8FA;color:#132D5E}
+.side strong{display:block;font-size:17px}
+.tabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;padding-left:12px;padding-right:12px}
+.lrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px;margin-top:8px}
+.lm{background:var(--paper);border-radius:10px;padding:8px;font-weight:800;font-size:14px;display:flex;align-items:center;white-space:nowrap}
+.lsd{display:grid;gap:4px}
+.lsd .side strong{display:inline;font-size:16px}
+.nowclock{background:var(--ink);color:var(--paper);border-radius:20px;padding:16px 20px;margin:14px 0 10px}
+.nc-label{margin:0;font-size:14px;font-weight:700;opacity:.8}.nc-time{margin:2px 0 0;font:800 44px/1 var(--display)}
+.simbox{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:14px;margin-bottom:14px}.simbox input{flex:1;min-width:160px}
+.nowcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:12px 0}
+.nowcard h3{margin:0 0 6px;font:800 18px var(--display)}.nowcard .big{font:800 22px var(--display);margin:4px 0}
+.nowcard .cd{display:inline-block;background:var(--glow-soft);border-radius:999px;padding:3px 10px;font-weight:800;font-size:14px}
+.infocard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:12px 0}
+.infocard h3{margin:0 0 6px;font:800 18px var(--display)}.infocard ul{margin:0;padding-left:20px}.infocard li{margin:4px 0;line-height:1.4}
+.cq{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line)}.cq input{width:22px;height:22px;margin-top:1px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+td.wrap-cell{white-space:normal;min-width:220px}
+th{font-weight:700;background:var(--paper)}
+tr:last-child td{border-bottom:0}
+td.c{font-weight:700;border-radius:6px}
+td.c-Rojo{background:var(--rojo-t)} td.c-Azul{background:var(--azul-t)} td.c-Verde{background:var(--verde-t)} td.c-Amarillo{background:var(--amarillo-t)}
+td.muted{color:var(--ink-soft)}
+td.hl{outline:2px solid var(--ink);outline-offset:-2px;font-weight:700}
+.note{color:var(--ink-soft);font-size:14px;margin:8px 2px 0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--ink-soft);margin-top:12px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle;border:2px solid var(--ink-soft)}
+.search{display:block;margin:4px 0 12px}
+.search span{display:block;font-size:15px;color:var(--ink-soft);margin-bottom:6px}
+.search input{width:100%;font:17px var(--body);padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.search input:focus-visible{outline:3px solid var(--glow);outline-offset:1px}
+.idx{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+@media (min-width:900px){.idx{grid-template-columns:1fr 1fr}}
+.idx-row{width:100%;display:flex;gap:14px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;color:var(--ink);font:inherit}
+.idx-num{flex:none;min-width:64px;text-align:center;font:800 19px var(--display);color:#fff;border-radius:999px;padding:6px 8px}
+.idx-num[data-g="Amarillo"]{color:#3B2D00}
+.idx-text b{display:block;font:700 17px var(--display);line-height:1.25}
+.idx-text span{display:block;font-size:14px;color:var(--ink-soft)}
+.mytables{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.mytables h3{font:700 19px var(--display);margin:0 0 8px}
+.mytables ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.mytables li{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:8px 10px;border-radius:10px;background:var(--paper)}
+.mytables li.game{background:var(--glow-soft)}
+.mt-time{font:700 15px var(--display)}
+.mt-what{font-size:15px;color:var(--ink-soft)}
+.mt-what b{display:block;color:var(--ink);font-size:16px}
+.plan-btn,.rbtn{border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:9px 16px;font:700 15px var(--body);cursor:pointer}
+.plan-btn{margin-top:12px;width:100%}
+.rsel{display:flex;gap:8px;margin-bottom:14px}
+.rbtn{flex:1}
+.rbtn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.plan-info{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:14px}
+.plan-info p{margin:2px 0}
+.pi-time{font:800 26px var(--display)}
+.arena{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px;border-radius:18px;background:var(--card);border:2px dashed var(--line)}
+.ptable{border:2px solid var(--line);border-radius:12px;padding:6px;opacity:.75}
+.ptable.on{border-color:var(--ink);opacity:1;box-shadow:0 0 0 3px var(--glow-soft)}
+.ptable.res{opacity:.5}
+.pt-name{margin:0 0 5px;font:700 14px var(--display);text-align:center}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.field{border-radius:8px;background:var(--paper);text-align:center;padding:6px 2px;min-height:58px;display:flex;flex-direction:column;justify-content:center}
+.field small{font-size:11px;color:var(--ink-soft)}
+.field b{font:800 16px var(--display)}
+.field em{font-style:normal;font-size:11px;font-weight:700}
+.field.me{color:#fff}.field.me small{color:inherit}
+.field.me[data-g="Amarillo"]{color:#3B2D00}
+.field.partner{outline:3px solid var(--ink);outline-offset:-3px}
+.field.empty{grid-column:1/-1;color:var(--ink-soft);font-size:14px}
+.wait{grid-column:1/-1;text-align:center;padding:10px;border-radius:10px;background:var(--meal);color:var(--meal-ink);font-weight:700;font-size:14px}
+@media (max-width:420px){.arena{grid-template-columns:repeat(2,1fr);padding:10px}.mytables li{grid-template-columns:84px 1fr}}
+[hidden]{display:none!important}
+@media (max-width:420px){.teams{gap:5px}.team{font-size:14px;padding:11px 0}.stop{grid-template-columns:54px 1fr;gap:22px}ol.timeline::before{left:65px}.stop::before{left:60px}.team-head .num{font-size:36px}}
+@media (max-width:420px){.tab{font-size:13px;padding:10px 12px;white-space:nowrap;flex:0 0 auto}.tabs{gap:4px;padding:4px}}
+#mpick .jbtn{font-size:14px;padding:10px 2px;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="theme-sw" role="group" aria-label="Modo de color"><button data-th="auto">Auto</button><button data-th="light">☀ Claro</button><button data-th="dark">☾ Oscuro</button></div>
+    <p>BIOGLOW™ Future Edition</p>
+    <h1>Torneo BIOGLOW: horarios</h1>
+    <p class="variant">Sábado 17 de octubre · Colegio Huinganal</p>
+    <p>Busca tu equipo en el Índice o elige tu número en Mi equipo para ver tu día completo.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="t-idx" aria-selected="true" aria-controls="p-idx">Índice</button>
+    <button class="tab" role="tab" id="t-all" aria-selected="false" aria-controls="p-all">Todo el día</button>
+    <button class="tab" role="tab" id="t-mine" aria-selected="false" aria-controls="p-mine">Mi equipo</button>
+    <button class="tab" role="tab" id="t-plan" aria-selected="false" aria-controls="p-plan">Mis rondas</button>
+    <button class="tab" role="tab" id="t-jue" aria-selected="false" aria-controls="p-jue">Consejeros</button>
+    <button class="tab" role="tab" id="t-mes" aria-selected="false" aria-controls="p-mes">Árbitros</button>
+    <button class="tab" role="tab" id="t-lla" aria-selected="false" aria-controls="p-lla">Llamados</button>
+    <button class="tab" role="tab" id="t-inf" aria-selected="false" aria-controls="p-inf">Info</button>
+  </div>
+
+  <section id="p-mine" role="tabpanel" aria-labelledby="t-mine" hidden>
+    <div id="picker"></div>
+    <p class="hint">¿No recuerdas el número de tu equipo? Búscalo en el Índice.</p>
+    <div id="mine"></div>
+  </section>
+
+  <section id="p-idx" role="tabpanel" aria-labelledby="t-idx">
+    <h2>Índice de equipos</h2>
+    <label class="search"><span>Busca por número, nombre del equipo o colegio</span>
+      <input id="q" type="search" placeholder="Ej.: 2011, Medialab o San Ignacio" autocomplete="off"></label>
+    <ul id="idx" class="idx"></ul>
+    <p class="note" id="idx-empty" hidden>No hay equipos con ese nombre. Prueba con otra palabra o con el número.</p>
+  </section>
+
+  <section id="p-plan" role="tabpanel" aria-labelledby="t-plan" hidden>
+    <h2>Mis rondas en la Zona de Competencia</h2>
+    <div id="plan"><p class="note">Primero elige tu equipo en el Índice o en Mi equipo.</p></div>
+  </section>
+
+  <section id="p-jue" role="tabpanel" aria-labelledby="t-jue" hidden>
+    <h2>Calendario de consejeros</h2>
+    <p class="note" style="margin-top:0">Elige tu grupo para ver dónde tienes que estar en cada momento de la mañana.</p>
+    <div class="jgroups" id="jpick"></div>
+    <div id="jcal"></div>
+  </section>
+
+  <section id="p-mes" role="tabpanel" aria-labelledby="t-mes" hidden>
+    <h2>Árbitros: horario por mesa</h2>
+    <p class="note" style="margin-top:0">Elige tu mesa para ver qué equipos llegan, en qué minuto y los tiempos de cada turno. En cada mesa trabajan 2 árbitros, uno por lado.</p>
+    <div class="jgroups" id="mpick" style="grid-template-columns:repeat(5,1fr)"></div>
+    <div id="mcal"></div>
+  </section>
+
+  <section id="p-lla" role="tabpanel" aria-labelledby="t-lla" hidden>
+    <h2>Llamados a las mesas</h2>
+    <p class="note" style="margin-top:0">Para el presentador y los voluntarios de las mesas de estrategia: en orden cronológico, qué equipos deben estar en cada mesa de estrategia. La reunión empieza 10 minutos antes del turno (8 en la tarde) y entran a la mesa 2 minutos antes.</p>
+    <div id="llist"></div>
+  </section>
+
+
+  <section id="p-inf" role="tabpanel" aria-labelledby="t-inf" hidden>
+    <h2>Info para los equipos</h2>
+    <div class="infocard"><h3>Horarios clave</h3><ul>
+      <li><b>9:15–9:55</b> · Llegada, registro con el código QR y montaje del pit. Después del registro, el coach retira las pulseras del almuerzo en la mesa de registro.</li>
+      <li><b>9:45–10:00</b> · Reunión de coaches (el lugar se informa el día del evento)</li>
+      <li><b>10:00–10:15</b> · Ceremonia de apertura</li>
+      <li><b>12:55 o 13:15</b> · Almuerzo por tandas (Mitad A o Mitad B), en el área comedor</li>
+      <li><b>15:40–16:15</b> · Premiación</li></ul></div>
+    <div class="infocard"><h3>Qué llevar a cada ronda</h3><ul>
+      <li><b>Hardware del campo:</b> 1 motor doble (grand tree), 1 sensor de color (young forest) y 1 motor simple (hive), sin accesorios, más 1 tarjeta de conexión obligatoria.</li>
+      <li><b>Hardware de sus herramientas:</b> 2 controles, 2 motores simples, 2 sensores de color y 2 motores dobles, y hasta 3 tarjetas de conexión opcionales.</li>
+      <li>Todo con <b>batería cargada</b>. Consejo: guarden el hardware del campo en una bolsa marcada con el número del equipo.</li>
+      <li>Máximo <b>1 notebook o tablet</b> por equipo en la mesa, sin cargadores, power banks ni mouse.</li></ul></div>
+    <div class="infocard"><h3>Cómo funciona cada ronda</h3><ul>
+      <li><b>Reunión de estrategia</b> con el equipo de su alianza, en la mesa de estrategia de la mesa donde van a jugar (al lado del escenario): 10 min en la mañana y 8 min en la tarde. Van hasta 4 estudiantes por equipo y su coach, con el robot y el computador.</li>
+      <li><b>Entrada a la mesa:</b> 2 minutos antes de su turno, directo desde la reunión.</li>
+      <li><b>En la mesa:</b> 1 estudiante por rol (Piloto, Operador/a, Técnica/o y Especialista), cada uno en su área. En la mañana, el árbitro revisa el puntaje con ustedes y les explica las reglas.</li>
+      <li><b>Tiempo de mejora</b> (solo después de la ronda 1): 20 minutos en su pit.</li></ul></div>
+    <div class="infocard"><h3>Cómo se define el ganador</h3><p>Las 5 rondas son oficiales y el premio de juego se calcula <b>promediando los puntajes de las 5 rondas</b>. Una ronda que no se juega vale 0. Las visitas de consejeros y las reuniones de estrategia no suman puntos.</p></div>
+    <div class="infocard"><h3>¿A quién pedir ayuda?</h3><ul>
+      <li><b>Dudas de reglas en la Zona de Competencia:</b> los árbitros de su mesa o un representante de SparkTalents.</li>
+      <li><b>Llegada y dudas generales:</b> el registro.</li>
+      <li><b>Si alguien se siente mal:</b> el punto de primeros auxilios, y avisar a su coach.</li></ul></div>
+  </section>
+
+  <section id="p-all" role="tabpanel" aria-labelledby="t-all" hidden>
+    <h2>Programa del día</h2>
+    <div class="scroll"><table id="tbl-prog"></table></div>
+    <h2>La mañana: ciclo de cada ronda</h2>
+    <p class="note">Reunión de estrategia de 10 min en la mesa de estrategia de su mesa, entrada a la mesa 2 min antes, ronda oficial con explicación de reglas del árbitro y unos 20 min de mejora en el pit.</p>
+    <h2>Visitas de consejeros</h2>
+    <div class="scroll"><table id="tbl-pit"></table></div>
+    <p class="note">8 grupos de consejeros. Visita 1: proceso y diseño. Visita 2: estrategia y colaboración. 12 minutos cada una, con guía de preguntas y nunca durante el tiempo de mejora. Entre visitas, los consejeros acompañan las reuniones de estrategia y observan las rondas.</p>
+    <h2>Rondas oficiales (mañana y tarde)</h2>
+    <div class="scroll"><table id="tbl-match"></table></div>
+    <p class="note">Primer número: lado rojo; segundo: lado azul. Las 5 rondas son oficiales.</p>
+  </section>
+</div>
+
+<script>
+const TEAMS=[[2001, "Chappie SEK Robotics", "Colegio Internacional SEK Chile"], [2002, "Galactech", "Craighouse School"], [2004, "Alpha Code", "Colegio Huinganal"], [2005, "Planta Robotic", "Club LEGO Kéikruk SpA"], [2006, "MASTERSEK", "Colegio Internacional SEK Pacífico"], [2007, "Spark-code", "St. Margaret's School"], [2009, "Steamers", "Instituto Hebreo"], [2010, "Ñutech", "Colegio San Vicente de Paúl"], [2011, "Medialab", "Colegio San Ignacio El Bosque"], [2013, "AlmenPower", "Colegio Polivalente Almendral de La Pintana"], [2016, "Los Halcones", "Departamento de Educación Huechuraba"], [2017, "Los Mosquitos", "After Huechuraba"], [2018, "Neo Hackers", "Escuela Golda Meir"], [2021, "Nuclear Technology", "Colegio Everest"], [2022, "Entuercas", "Colegio Básico San Vicente"], [2023, "Proud to be Deaf", "Escuela Santiago Apóstol"], [2024, "FireRobots", "Colegio Tierra del Fuego"], [2025, "Robótica El Llano", "Liceo Municipal Técnico Profesional El Llano"], [2026, "MICHAIBOT", "Colegio Michaihue"], [2028, "Las chicas del código", "Colegio Polivalente Almendral de La Pintana"]];
+const NUM=t=>TEAMS[t-1][0];
+const byNum=n=>{const i=TEAMS.findIndex(x=>x[0]===n);return i<0?null:i+1};
+const GROUPS={"Equipos": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]};
+const GCOL={Equipos:'var(--azul)'};
+const groupOf=t=>'Equipos';
+const toMin=s=>{const[h,m]=s.split(':').map(Number);return h*60+m};
+const fmt=m=>`${Math.floor(m/60)}:${String(m%60).padStart(2,'0')}`;
+const HALF_A=[2001, 2002, 2004, 2005, 2006, 2007, 2009, 2010, 2011, 2013];
+const R5={"2010": {"1": [640, 1, "rojo", 2011], "3": [840, 2, "rojo", 2009], "4": [870, 3, "azul", 2002], "2": [695, 4, "rojo", 2013], "5": [900, 5, "azul", 2006]}, "2011": {"1": [640, 1, "azul", 2010], "5": [900, 2, "azul", 2013], "3": [840, 3, "rojo", 2007], "4": [870, 4, "rojo", 2004], "2": [695, 5, "azul", 2001]}, "2025": {"1": [665, 1, "rojo", 2026], "3": [855, 2, "rojo", 2024], "4": [885, 3, "azul", 2017], "2": [720, 4, "rojo", 2028], "5": [915, 5, "azul", 2022]}, "2026": {"1": [665, 1, "azul", 2025], "5": [915, 2, "azul", 2028], "3": [855, 3, "rojo", 2023], "4": [885, 4, "rojo", 2018], "2": [720, 5, "azul", 2016]}, "2009": {"2": [695, 1, "rojo", 2007], "3": [840, 2, "azul", 2010], "5": [900, 3, "azul", 2001], "1": [640, 4, "rojo", 2006], "4": [870, 5, "azul", 2013]}, "2007": {"2": [695, 1, "azul", 2009], "4": [870, 2, "rojo", 2006], "3": [840, 3, "azul", 2011], "5": [900, 4, "azul", 2005], "1": [640, 5, "rojo", 2002]}, "2024": {"2": [720, 1, "rojo", 2023], "3": [855, 2, "azul", 2025], "5": [915, 3, "azul", 2016], "1": [665, 4, "rojo", 2022], "4": [885, 5, "azul", 2028]}, "2023": {"2": [720, 1, "azul", 2024], "4": [885, 2, "rojo", 2022], "3": [855, 3, "azul", 2026], "5": [915, 4, "azul", 2021], "1": [665, 5, "rojo", 2017]}, "2006": {"3": [840, 1, "rojo", 2013], "4": [870, 2, "azul", 2007], "2": [695, 3, "azul", 2004], "1": [640, 4, "azul", 2009], "5": [900, 5, "rojo", 2010]}, "2013": {"3": [840, 1, "azul", 2006], "5": [900, 2, "rojo", 2011], "1": [640, 3, "azul", 2005], "2": [695, 4, "azul", 2010], "4": [870, 5, "rojo", 2009]}, "2022": {"3": [855, 1, "rojo", 2017], "4": [885, 2, "azul", 2023], "2": [720, 3, "azul", 2018], "1": [665, 4, "azul", 2024], "5": [915, 5, "rojo", 2025]}, "2017": {"3": [855, 1, "azul", 2022], "5": [915, 1, "rojo", 2018], "2": [720, 2, "rojo", 2021], "4": [885, 3, "rojo", 2025], "1": [665, 5, "azul", 2023]}, "2005": {"4": [870, 1, "rojo", 2001], "2": [695, 2, "azul", 2002], "1": [640, 3, "rojo", 2013], "5": [900, 4, "rojo", 2007], "3": [840, 5, "azul", 2004]}, "2001": {"4": [870, 1, "azul", 2005], "1": [640, 2, "azul", 2004], "5": [900, 3, "rojo", 2009], "3": [840, 4, "rojo", 2002], "2": [695, 5, "rojo", 2011]}, "2021": {"4": [885, 1, "rojo", 2016], "2": [720, 2, "azul", 2017], "1": [665, 3, "rojo", 2028], "5": [915, 4, "rojo", 2023], "3": [855, 5, "azul", 2018]}, "2016": {"4": [885, 1, "azul", 2021], "1": [665, 2, "azul", 2018], "5": [915, 3, "rojo", 2024], "3": [855, 4, "rojo", 2028], "2": [720, 5, "rojo", 2026]}, "2002": {"5": [900, 1, "rojo", 2004], "2": [695, 2, "rojo", 2005], "4": [870, 3, "rojo", 2010], "3": [840, 4, "azul", 2001], "1": [640, 5, "azul", 2007]}, "2004": {"5": [900, 1, "azul", 2002], "1": [640, 2, "rojo", 2001], "2": [695, 3, "rojo", 2006], "4": [870, 4, "azul", 2011], "3": [840, 5, "rojo", 2005]}, "2018": {"5": [915, 1, "azul", 2017], "1": [665, 2, "rojo", 2016], "2": [720, 3, "rojo", 2022], "4": [885, 4, "azul", 2026], "3": [855, 5, "rojo", 2021]}, "2028": {"5": [915, 2, "rojo", 2026], "1": [665, 3, "azul", 2021], "2": [720, 4, "azul", 2025], "3": [855, 4, "azul", 2016], "4": [885, 5, "rojo", 2024]}};
+const TURNS5=[["A", 1, 640, 20, [[1, 2010, 2011], [2, 2004, 2001], [3, 2005, 2013], [4, 2009, 2006], [5, 2007, 2002]]], ["B", 1, 665, 20, [[1, 2025, 2026], [2, 2018, 2016], [3, 2021, 2028], [4, 2024, 2022], [5, 2023, 2017]]], ["A", 2, 695, 20, [[1, 2009, 2007], [2, 2002, 2005], [3, 2004, 2006], [4, 2010, 2013], [5, 2001, 2011]]], ["B", 2, 720, 20, [[1, 2024, 2023], [2, 2017, 2021], [3, 2018, 2022], [4, 2025, 2028], [5, 2016, 2026]]], ["A", 3, 840, 15, [[1, 2006, 2013], [2, 2010, 2009], [3, 2011, 2007], [4, 2001, 2002], [5, 2004, 2005]]], ["B", 3, 855, 15, [[1, 2022, 2017], [2, 2025, 2024], [3, 2026, 2023], [4, 2016, 2028], [5, 2018, 2021]]], ["A", 4, 870, 15, [[1, 2005, 2001], [2, 2007, 2006], [3, 2002, 2010], [4, 2011, 2004], [5, 2013, 2009]]], ["B", 4, 885, 15, [[1, 2021, 2016], [2, 2023, 2022], [3, 2017, 2025], [4, 2026, 2018], [5, 2028, 2024]]], ["A", 5, 900, 15, [[1, 2002, 2004], [2, 2013, 2011], [3, 2001, 2009], [4, 2005, 2007], [5, 2006, 2010]]], ["B", 5, 915, 15, [[1, 2017, 2018], [2, 2028, 2026], [3, 2016, 2024], [4, 2021, 2023], [5, 2022, 2025]]]];
+const VIS={"2018": [["10:20", 1], ["12:30", 3]], "2026": [["10:35", 1], ["12:45", 4]], "2013": [["12:00", 1], ["12:15", 2]], "2001": [["12:00", 5], ["12:15", 1]], "2025": [["10:35", 7], ["12:30", 1]], "2028": [["10:35", 2], ["12:45", 3]], "2004": [["12:00", 2], ["12:15", 4]], "2024": [["10:35", 6], ["12:30", 2]], "2023": [["10:20", 5], ["12:45", 2]], "2017": [["10:35", 3], ["12:45", 6]], "2007": [["12:00", 3], ["12:30", 4]], "2005": [["12:00", 8], ["12:15", 3]], "2022": [["10:20", 4], ["12:45", 8]], "2002": [["12:00", 4], ["12:15", 8]], "2006": [["12:00", 7], ["12:15", 5]], "2010": [["12:15", 6], ["12:30", 5]], "2021": [["10:20", 7], ["12:45", 5]], "2009": [["12:00", 6], ["12:30", 8]], "2011": [["12:15", 7], ["12:30", 6]], "2016": [["10:20", 8], ["12:30", 7]]};
+const MEET={A:['10:28','11:23'],B:['10:53','11:48']};
+const half=n=>HALF_A.includes(n)?'A':'B';
+const isSolo=p=>p===null||p==='None';
+function roundInfo(n,r){const [st,mesa,lado,p]=R5[n][r];return {st,mesa,lado,p:isSolo(p)?null:+p}}
+function teamStops(t){
+  const n=NUM(t),h=half(n),stops=[];
+  stops.push({s:'9:15',e:'9:55',title:'Llegada y montaje del pit',sub:'Registro en la entrada: el coach escanea el código QR y luego retira las pulseras del almuerzo en la mesa de registro.'});
+  stops.push({s:'9:45',e:'10:00',title:'Reunión con entrenadores',sub:'Solo entrenadores, mientras los estudiantes terminan de armar el pit. El lugar se informa el día del evento.'});
+  stops.push({s:'10:00',e:'10:15',title:'Ceremonia de apertura',sub:'Bienvenida y cómo funciona el día.'});
+  [1,2].forEach(r=>{const x=roundInfo(n,r),m=MEET[h][r-1];
+    const red=x.p===null?null:(x.lado==='rojo'?n:x.p);
+    stops.push({s:m,e:fmt(toMin(m)+10),title:`Reunión de estrategia (ronda ${r})`,sub:x.p===null?`Con ${gtxt(r)}${tname(GUEST[r])?' · '+tname(GUEST[r]):''}, en la <b>mesa de estrategia de la Mesa ${x.mesa}</b>, al lado del escenario. El invitado no suma puntos en esta ronda.`:`Con el equipo ${partnerLabel(x.p)}, en la <b>mesa de estrategia de la Mesa ${x.mesa}</b>, al lado del escenario. Acuerden cómo trabajarán la Misión 05. A las ${fmt(x.st-2)} entran a la mesa. Es posible que los acompañe un grupo de consejeros.`,cls:'meet',tag:['Reunión con el otro equipo','meet']});
+    stops.push({s:fmt(x.st),e:fmt(x.st+20),title:`Ronda oficial ${r}`,sub:`Mesa ${x.mesa}, lado ${x.lado}${x.p===null?', con '+gtxt(r):', con el equipo '+x.p}. Entran a la mesa a las ${fmt(x.st-2)}, después de su reunión. El árbitro les explicará las reglas al revisar el puntaje.`,cls:'game',tag:['Ronda oficial','']});
+    if(r===1)stops.push({s:fmt(x.st+20),e:fmt(x.st+40),title:'Tiempo de mejora',sub:'Vuelvan a su pit a mejorar hardware, programación o estrategia. Sin visitas de consejeros en este tiempo.',cls:'learn',tag:['En el pit','opt']});
+  });
+  VIS[n].forEach(([s,g],j)=>stops.push({s:s,e:fmt(toMin(s)+12),title:`Visita de consejeros ${j+1}`,sub:`${j?'Estrategia y colaboración':'Proceso y diseño'}. Grupo ${g}, en su pit.`,cls:'must',tag:['Cita fija','']}));
+  stops.push(h==='A'?{s:'12:55',e:'13:20',title:'Almuerzo (tanda 1)',sub:'Almuerza la Mitad A. Después, tiempo libre en el pit.',cls:'meal'}:{s:'13:15',e:'13:40',title:'Almuerzo (tanda 2)',sub:'Almuerza la Mitad B. Antes, tiempo libre en el pit.',cls:'meal'});
+  stops.push({s:'13:40',e:'13:50',title:'Momento de baile',sub:'Calentamiento para todos.'});
+  [3,4,5].forEach(r=>{const x=roundInfo(n,r),[ms,me]=AFT[h][r];
+    const red=x.p===null?n:(x.lado==='rojo'?n:x.p);
+    stops.push({s:ms,e:me,title:`Reunión de estrategia (ronda ${r})`,sub:x.p===null?(GUEST[r]==='Mentores'?`Con el equipo de mentores invitado, en la <b>mesa de estrategia de la Mesa ${x.mesa}</b>, al lado del escenario.`:`Preparen su estrategia en la <b>mesa de estrategia de la Mesa ${x.mesa}</b>, al lado del escenario; con el invitado ${GUEST[r]} coordinan 2 minutos en la mesa.`):`Con el equipo ${partnerLabel(x.p)}, en la <b>mesa de estrategia de la Mesa ${x.mesa}</b>, al lado del escenario. 8 minutos para acordar la ronda; a las ${fmt(x.st-2)} entran a la mesa.`,cls:'meet',tag:['Reunión con el otro equipo','meet']});
+    stops.push({s:fmt(x.st),e:fmt(x.st+15),title:`Ronda oficial ${r}`,sub:`Mesa ${x.mesa}, lado ${x.lado}${x.p===null?', con '+gtxt(r):', con el equipo '+x.p}. Entran a la mesa a las ${fmt(x.st-2)}, después de su reunión, con el robot listo.`,cls:'game',tag:['Ronda oficial','']});});
+  GUESTS.filter(q=>q.g===n).forEach(q=>{
+    if(q.meet)stops.push({s:q.meet,e:fmt(toMin(q.meet)+10),title:'Reunión como equipo invitado',sub:`Al terminar su ronda, vayan al pit del equipo ${q.solo} para coordinar su partida juntos.`,cls:'meet',tag:['Equipo invitado','meet']});
+    stops.push({s:q.st,e:fmt(toMin(q.st)+10),title:`Equipo invitado (ronda ${q.r})`,sub:`Mesa ${q.mesa}: juegan con el equipo ${q.solo}, que no tiene compañero en esta ronda. No suman puntos: es un gesto de compañerismo.${q.meet?'':' Coordinen 2 minutos en la mesa durante la instalación.'}`,cls:'game',tag:['Invitación','opt']});
+  });
+  stops.push({s:'15:40',e:'16:15',title:'Premiación',sub:'Escenario · todos.'});
+  return stops.sort((a,b)=>toMin(a.s)-toMin(b.s));
+}
+
+function renderPicker(){
+  const el=document.getElementById('picker');
+  el.innerHTML=Object.keys(GROUPS).map(g=>`
+    <div class="group">
+    <div class="teams">${GROUPS[g].map(t=>`<button class="team" data-g="${g}" data-t="${t}" aria-pressed="false" style="background:${GCOL[g]}" aria-label="Equipo ${NUM(t)}">${NUM(t)}</button>`).join('')}</div></div>`).join('');
+  el.addEventListener('click',e=>{const b=e.target.closest('.team');if(b)select(+b.dataset.t,true)});
+}
+
+function select(t,scroll){
+  document.querySelectorAll('.team').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.t===t));
+  const g=groupOf(t);
+  const stops=teamStops(t);
+  document.getElementById('mine').innerHTML=`
+    <div class="team-head" data-g="${g}" style="background:${GCOL[g]}">
+      <span class="num">${NUM(t)}</span>
+      <span class="meta"><b>${TEAMS[t-1][1]||TEAMS[t-1][2]}</b>${TEAMS[t-1][1]?TEAMS[t-1][2]:''}</span>
+      <button class="share" id="share">Copiar enlace</button>
+    </div>
+    <div class="mytables">
+      <h3>Mis mesas del día</h3>
+      <ul>${myTables(t).map(x=>`<li class="${x.cls}"><span class="mt-time">${x.time}</span><span class="mt-what"><b>${x.what}</b>${x.where}</span></li>`).join('')}</ul>
+      <button class="plan-btn" id="to-plan">Ver mis rondas en el plano</button>
+    </div>
+    <ol class="timeline">${stops.map(s=>`
+      <li class="stop ${s.cls||''}"><div class="time">${s.s}<small>${s.e}</small></div>
+      <div class="box"><b>${s.title}</b><span>${s.sub}</span>${s.tag?`<span class="tag ${s.tag[1]}">${s.tag[0]}</span>`:''}</div></li>`).join('')}
+    </ol>
+    <div class="legend"><span><i style="border-color:var(--meet-dot);background:var(--meet-dot)"></i>Reunión de estrategia</span><span><i style="border-color:var(--glow);background:var(--glow-soft)"></i>Aprendizaje y mejora</span><span><i style="background:var(--ink);border-color:var(--ink)"></i>Visita de consejeros</span><span><i style="background:var(--glow);border-color:var(--glow)"></i>Ronda oficial</span></div>`;
+  document.getElementById('share').addEventListener('click',async ev=>{
+    const url=location.href.split('#')[0]+'#equipo-'+NUM(t);
+    try{await navigator.clipboard.writeText(url);ev.target.textContent='Enlace copiado'}catch(e){ev.target.textContent='No se pudo copiar'}
+    setTimeout(()=>ev.target.textContent='Copiar enlace',2200);
+  });
+  document.getElementById('to-plan').onclick=()=>{showTab('plan');window.scrollTo({top:0})};
+  renderPlan(t,1);
+  document.querySelectorAll('#p-all td[data-t]').forEach(td=>td.classList.toggle('hl',+td.dataset.t===t||+td.dataset.u===t));
+  try{localStorage.setItem('bioglow-team-b2',NUM(t))}catch(e){}
+  try{history.replaceState(null,'','#equipo-'+NUM(t))}catch(e){}
+  if(scroll)document.getElementById('mine').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+}
+
+
+function partnerLabel(n){const x=TEAMS[byNum(n)-1];return `${n}${x[1]?' · '+x[1]:''}`}
+function myTables(t){
+  const n=NUM(t),out=[];
+  [1,2,3,4,5].forEach(r=>{const x=roundInfo(n,r),d=r<3?20:15;out.push({time:`${fmt(x.st)}–${fmt(x.st+d)}`,what:`Ronda oficial ${r}`,where:`Mesa ${x.mesa}, lado ${x.lado}, `+(x.p===null?`con ${gtxt(r)}`:`con el equipo ${partnerLabel(x.p)}`),cls:'game'})});
+  VIS[n].forEach(([s,g],j)=>out.push({time:`${s}–${fmt(toMin(s)+12)}`,what:`Visita de consejeros ${j+1}`,where:`En su pit, grupo ${g}`,cls:'learn'}));
+  return out.sort((a,b)=>toMin(a.time.split('–')[0])-toMin(b.time.split('–')[0]));
+}
+function renderPlan(t,r){
+  const el=document.getElementById('plan');
+  const n=NUM(t),x=roundInfo(n,r),d=r<3?20:15;
+  const tr=TURNS5.find(z=>z[1]===r&&z[2]===x.st);const bym={};tr[4].forEach(([m,a,b])=>bym[m]=[a,isSolo(b)?null:b]);
+  const pt=x.p?TEAMS[byNum(x.p)-1]:null;
+  const field=(v,lab)=>{const mine=v===n,part=v&&v===x.p;
+    return `<div class="field ${mine?'me':''} ${part?'partner':''}" ${mine?'style="background:var(--azul)"':''}><small>Lado ${lab}</small><b>${v||'—'}</b>${mine?'<em>Tu equipo</em>':part?'<em>Compañero</em>':''}</div>`};
+  el.innerHTML=`
+    <div class="rsel" role="group" aria-label="Elegir ronda">${[1,2,3,4,5].map(z=>`<button class="rbtn" data-r="${z}" aria-pressed="${z===r}">R${z}</button>`).join('')}</div>
+    <div class="plan-info">
+      <p class="pi-time">${fmt(x.st)}–${fmt(x.st+d)}</p>
+      <p><b>Mesa ${x.mesa}, lado ${x.lado}</b></p>
+      <p>${x.p?`Juegan junto al equipo <b>${x.p}</b>${pt[1]?' · '+pt[1]:''} (${pt[2]}). Comparten la Misión 05 Central Haven.`:`En esta ronda juegan con <b>${gtxt(r)}</b>${tname(GUEST[r])?' · '+tname(GUEST[r]):''}, que no suma puntos.`}</p>
+      <p class="note">${r<3?`Reunión de estrategia a las ${MEET[half(n)][r-1]} en la mesa de estrategia de la Mesa ${x.mesa}; entran a la mesa a las ${fmt(x.st-2)}.`:`Reunión de estrategia a las ${AFT[half(n)][r][0]} en la mesa de estrategia de la Mesa ${x.mesa}; entran a la mesa a las ${fmt(x.st-2)}, con el robot listo.`}</p>
+    </div>
+    <div class="arena" aria-label="Plano de la Zona de Competencia">
+      ${[1,2,3,4,5].map(m=>{const pr=bym[m];const on=m===x.mesa;
+        return `<div class="ptable ${on?'on':''} ${pr?'':'res'}"><p class="pt-name">Mesa ${m}</p><div class="fields">${pr?field(pr[0],'rojo')+field(pr[1],'azul'):'<div class="field empty">Sin partida</div>'}</div></div>`}).join('')}
+      <div class="wait">Mesas de estrategia (reuniones de estrategia)</div>
+    </div>
+    <p class="note">Plano referencial: la ubicación real de las mesas puede variar el día del evento.</p>`;
+  el.querySelectorAll('.rbtn').forEach(b=>b.onclick=()=>renderPlan(t,+b.dataset.r));
+}
+
+const JUECES={"1": [["9:15", "10:00", "Llegada y reunión de inicio: repasan las visitas y conocen a su grupo", "Sala de consejeros"], ["10:00", "10:15", "Ceremonia de apertura: presentación de los consejeros", "Escenario"], ["10:20", "10:32", "Visita 1 (conocernos) al equipo 2018", "Pit 14 · pit del equipo 2018"], ["10:35", "10:47", "Visita 1 (conocernos) al equipo 2026", "Pit 20 · pit del equipo 2026"], ["10:50", "12:00", "Sin visitas: avancen la pauta de registro. Opcional: observar reuniones de estrategia o el juego (desde afuera de la zona de competencia).", "Mesas de estrategia · Zona de competencia"], ["11:23", "11:33", "Sugerido: observar la reunión de 2001 con 2011 y ver en acción al equipo de su Visita 2 (12:15).", "Mesa de estrategia E5"], ["12:00", "12:12", "Visita 1 (conocernos) al equipo 2013", "Pit 1 · pit del equipo 2013"], ["12:15", "12:27", "Visita 2 (después de las rondas) al equipo 2001", "Pit 11 · pit del equipo 2001"], ["12:30", "12:42", "Visita 2 (después de las rondas) al equipo 2025", "Pit 19 · pit del equipo 2025"], ["12:45", "12:57", "Tiempo libre: terminen la pauta de registro para la reunión de cierre", "—"], ["13:00", "13:40", "Reunión de cierre (obligatoria): entregan sus hojas y votan el Premio a la Inspiración. Luego, almuerzo", "Sala de consejeros (de la mañana)"], ["14:00", "15:30", "Bloque opcional: observar reuniones de estrategia y el juego de las rondas 3 a 5 (un turno cada 15 min)", "Mesas de estrategia · Zona de competencia"], ["15:40", "16:15", "Premiación y cierre", "Tarima"]], "2": [["9:15", "10:00", "Llegada y reunión de inicio: repasan las visitas y conocen a su grupo", "Sala de consejeros"], ["10:00", "10:15", "Ceremonia de apertura: presentación de los consejeros", "Escenario"], ["10:20", "10:32", "Opcional: observar la reunión de estrategia de la Ronda 1 · Mitad A (10:28–10:38).", "Mesas de estrategia"], ["10:35", "10:47", "Visita 1 (conocernos) al equipo 2028", "Pit 2 · pit del equipo 2028"], ["10:50", "12:00", "Sin visitas: avancen la pauta de registro. Opcional: observar reuniones de estrategia o el juego (desde afuera de la zona de competencia).", "Mesas de estrategia · Zona de competencia"], ["11:48", "11:58", "Sugerido: observar la reunión de 2024 con 2023 y ver en acción a los equipos de su Visita 2 (12:30 y 12:45).", "Mesa de estrategia E1"], ["12:00", "12:12", "Visita 1 (conocernos) al equipo 2004", "Pit 4 · pit del equipo 2004"], ["12:15", "12:27", "Visita 2 (después de las rondas) al equipo 2013", "Pit 1 · pit del equipo 2013"], ["12:30", "12:42", "Visita 2 (después de las rondas) al equipo 2024", "Pit 18 · pit del equipo 2024"], ["12:45", "12:57", "Visita 2 (después de las rondas) al equipo 2023", "Pit 16 · pit del equipo 2023"], ["13:00", "13:40", "Reunión de cierre (obligatoria): entregan sus hojas y votan el Premio a la Inspiración. Luego, almuerzo", "Sala de consejeros (de la mañana)"], ["14:00", "15:30", "Bloque opcional: observar reuniones de estrategia y el juego de las rondas 3 a 5 (un turno cada 15 min)", "Mesas de estrategia · Zona de competencia"], ["15:40", "16:15", "Premiación y cierre", "Tarima"]], "3": [["9:15", "10:00", "Llegada y reunión de inicio: repasan las visitas y conocen a su grupo", "Sala de consejeros"], ["10:00", "10:15", "Ceremonia de apertura: presentación de los consejeros", "Escenario"], ["10:20", "10:32", "Opcional: observar la reunión de estrategia de la Ronda 1 · Mitad A (10:28–10:38).", "Mesas de estrategia"], ["10:35", "10:47", "Visita 1 (conocernos) al equipo 2017", "Pit 13 · pit del equipo 2017"], ["10:50", "12:00", "Sin visitas: avancen la pauta de registro. Opcional: observar reuniones de estrategia o el juego (desde afuera de la zona de competencia).", "Mesas de estrategia · Zona de competencia"], ["11:23", "11:33", "Sugerido: observar la reunión de 2005 con 2002 y ver en acción al equipo de su Visita 2 (12:15).", "Mesa de estrategia E2"], ["12:00", "12:12", "Visita 1 (conocernos) al equipo 2007", "Pit 7 · pit del equipo 2007"], ["12:15", "12:27", "Visita 2 (después de las rondas) al equipo 2005", "Pit 5 · pit del equipo 2005"], ["12:30", "12:42", "Visita 2 (después de las rondas) al equipo 2018", "Pit 14 · pit del equipo 2018"], ["12:45", "12:57", "Visita 2 (después de las rondas) al equipo 2028", "Pit 2 · pit del equipo 2028"], ["13:00", "13:40", "Reunión de cierre (obligatoria): entregan sus hojas y votan el Premio a la Inspiración. Luego, almuerzo", "Sala de consejeros (de la mañana)"], ["14:00", "15:30", "Bloque opcional: observar reuniones de estrategia y el juego de las rondas 3 a 5 (un turno cada 15 min)", "Mesas de estrategia · Zona de competencia"], ["15:40", "16:15", "Premiación y cierre", "Tarima"]], "4": [["9:15", "10:00", "Llegada y reunión de inicio: repasan las visitas y conocen a su grupo", "Sala de consejeros"], ["10:00", "10:15", "Ceremonia de apertura: presentación de los consejeros", "Escenario"], ["10:20", "10:32", "Visita 1 (conocernos) al equipo 2022", "Pit 17 · pit del equipo 2022"], ["10:35", "10:47", "Opcional: mirar el juego de la Ronda 1 · Mitad A desde afuera de la zona de competencia (10:40–11:00).", "Zona de competencia"], ["10:50", "12:00", "Sin visitas: avancen la pauta de registro. Opcional: observar reuniones de estrategia o el juego (desde afuera de la zona de competencia).", "Mesas de estrategia · Zona de competencia"], ["11:23", "11:33", "Sugerido: observar la reunión de 2004 con 2006 y ver en acción al equipo de su Visita 2 (12:15).", "Mesa de estrategia E3"], ["12:00", "12:12", "Visita 1 (conocernos) al equipo 2002", "Pit 3 · pit del equipo 2002"], ["12:15", "12:27", "Visita 2 (después de las rondas) al equipo 2004", "Pit 4 · pit del equipo 2004"], ["12:30", "12:42", "Visita 2 (después de las rondas) al equipo 2007", "Pit 7 · pit del equipo 2007"], ["12:45", "12:57", "Visita 2 (después de las rondas) al equipo 2026", "Pit 20 · pit del equipo 2026"], ["13:00", "13:40", "Reunión de cierre (obligatoria): entregan sus hojas y votan el Premio a la Inspiración. Luego, almuerzo", "Sala de consejeros (de la mañana)"], ["14:00", "15:30", "Bloque opcional: observar reuniones de estrategia y el juego de las rondas 3 a 5 (un turno cada 15 min)", "Mesas de estrategia · Zona de competencia"], ["15:40", "16:15", "Premiación y cierre", "Tarima"]], "5": [["9:15", "10:00", "Llegada y reunión de inicio: repasan las visitas y conocen a su grupo", "Sala de consejeros"], ["10:00", "10:15", "Ceremonia de apertura: presentación de los consejeros", "Escenario"], ["10:20", "10:32", "Visita 1 (conocernos) al equipo 2023", "Pit 16 · pit del equipo 2023"], ["10:35", "10:47", "Opcional: mirar el juego de la Ronda 1 · Mitad A desde afuera de la zona de competencia (10:40–11:00).", "Zona de competencia"], ["10:50", "12:00", "Sin visitas: avancen la pauta de registro. Opcional: observar reuniones de estrategia o el juego (desde afuera de la zona de competencia).", "Mesas de estrategia · Zona de competencia"], ["11:23", "11:33", "Sugerido: observar la reunión de 2010 con 2013 y ver en acción al equipo de su Visita 2 (12:30).", "Mesa de estrategia E4"], ["12:00", "12:12", "Visita 1 (conocernos) al equipo 2001", "Pit 11 · pit del equipo 2001"], ["12:15", "12:27", "Visita 2 (después de las rondas) al equipo 2006", "Pit 6 · pit del equipo 2006"], ["12:30", "12:42", "Visita 2 (después de las rondas) al equipo 2010", "Pit 9 · pit del equipo 2010"], ["12:45", "12:57", "Visita 2 (después de las rondas) al equipo 2021", "Pit 15 · pit del equipo 2021"], ["13:00", "13:40", "Reunión de cierre (obligatoria): entregan sus hojas y votan el Premio a la Inspiración. Luego, almuerzo", "Sala de consejeros (de la mañana)"], ["14:00", "15:30", "Bloque opcional: observar reuniones de estrategia y el juego de las rondas 3 a 5 (un turno cada 15 min)", "Mesas de estrategia · Zona de competencia"], ["15:40", "16:15", "Premiación y cierre", "Tarima"]], "6": [["9:15", "10:00", "Llegada y reunión de inicio: repasan las visitas y conocen a su grupo", "Sala de consejeros"], ["10:00", "10:15", "Ceremonia de apertura: presentación de los consejeros", "Escenario"], ["10:20", "10:32", "Opcional: observar la reunión de estrategia de la Ronda 1 · Mitad A (10:28–10:38).", "Mesas de estrategia"], ["10:35", "10:47", "Visita 1 (conocernos) al equipo 2024", "Pit 18 · pit del equipo 2024"], ["10:50", "12:00", "Sin visitas: avancen la pauta de registro. Opcional: observar reuniones de estrategia o el juego (desde afuera de la zona de competencia).", "Mesas de estrategia · Zona de competencia"], ["11:48", "11:58", "Sugerido: observar la reunión de 2017 con 2021 y ver en acción al equipo de su Visita 2 (12:45).", "Mesa de estrategia E2"], ["12:00", "12:12", "Visita 1 (conocernos) al equipo 2009", "Pit 8 · pit del equipo 2009"], ["12:15", "12:27", "Visita 1 (conocernos) al equipo 2010", "Pit 9 · pit del equipo 2010"], ["12:30", "12:42", "Visita 2 (después de las rondas) al equipo 2011", "Pit 10 · pit del equipo 2011"], ["12:45", "12:57", "Visita 2 (después de las rondas) al equipo 2017", "Pit 13 · pit del equipo 2017"], ["13:00", "13:40", "Reunión de cierre (obligatoria): entregan sus hojas y votan el Premio a la Inspiración. Luego, almuerzo", "Sala de consejeros (de la mañana)"], ["14:00", "15:30", "Bloque opcional: observar reuniones de estrategia y el juego de las rondas 3 a 5 (un turno cada 15 min)", "Mesas de estrategia · Zona de competencia"], ["15:40", "16:15", "Premiación y cierre", "Tarima"]], "7": [["9:15", "10:00", "Llegada y reunión de inicio: repasan las visitas y conocen a su grupo", "Sala de consejeros"], ["10:00", "10:15", "Ceremonia de apertura: presentación de los consejeros", "Escenario"], ["10:20", "10:32", "Visita 1 (conocernos) al equipo 2021", "Pit 15 · pit del equipo 2021"], ["10:35", "10:47", "Visita 1 (conocernos) al equipo 2025", "Pit 19 · pit del equipo 2025"], ["10:50", "12:00", "Sin visitas: avancen la pauta de registro. Opcional: observar reuniones de estrategia o el juego (desde afuera de la zona de competencia).", "Mesas de estrategia · Zona de competencia"], ["11:48", "11:58", "Sugerido: observar la reunión de 2016 con 2026 y ver en acción al equipo de su Visita 2 (12:30).", "Mesa de estrategia E5"], ["12:00", "12:12", "Visita 1 (conocernos) al equipo 2006", "Pit 6 · pit del equipo 2006"], ["12:15", "12:27", "Visita 1 (conocernos) al equipo 2011", "Pit 10 · pit del equipo 2011"], ["12:30", "12:42", "Visita 2 (después de las rondas) al equipo 2016", "Pit 12 · pit del equipo 2016"], ["12:45", "12:57", "Tiempo libre: terminen la pauta de registro para la reunión de cierre", "—"], ["13:00", "13:40", "Reunión de cierre (obligatoria): entregan sus hojas y votan el Premio a la Inspiración. Luego, almuerzo", "Sala de consejeros (de la mañana)"], ["14:00", "15:30", "Bloque opcional: observar reuniones de estrategia y el juego de las rondas 3 a 5 (un turno cada 15 min)", "Mesas de estrategia · Zona de competencia"], ["15:40", "16:15", "Premiación y cierre", "Tarima"]], "8": [["9:15", "10:00", "Llegada y reunión de inicio: repasan las visitas y conocen a su grupo", "Sala de consejeros"], ["10:00", "10:15", "Ceremonia de apertura: presentación de los consejeros", "Escenario"], ["10:20", "10:32", "Visita 1 (conocernos) al equipo 2016", "Pit 12 · pit del equipo 2016"], ["10:35", "10:47", "Opcional: mirar el juego de la Ronda 1 · Mitad A desde afuera de la zona de competencia (10:40–11:00).", "Zona de competencia"], ["10:50", "12:00", "Sin visitas: avancen la pauta de registro. Opcional: observar reuniones de estrategia o el juego (desde afuera de la zona de competencia).", "Mesas de estrategia · Zona de competencia"], ["11:23", "11:33", "Sugerido: observar la reunión de 2009 con 2007 y ver en acción al equipo de su Visita 2 (12:30).", "Mesa de estrategia E1"], ["12:00", "12:12", "Visita 1 (conocernos) al equipo 2005", "Pit 5 · pit del equipo 2005"], ["12:15", "12:27", "Visita 2 (después de las rondas) al equipo 2002", "Pit 3 · pit del equipo 2002"], ["12:30", "12:42", "Visita 2 (después de las rondas) al equipo 2009", "Pit 8 · pit del equipo 2009"], ["12:45", "12:57", "Visita 2 (después de las rondas) al equipo 2022", "Pit 17 · pit del equipo 2022"], ["13:00", "13:40", "Reunión de cierre (obligatoria): entregan sus hojas y votan el Premio a la Inspiración. Luego, almuerzo", "Sala de consejeros (de la mañana)"], ["14:00", "15:30", "Bloque opcional: observar reuniones de estrategia y el juego de las rondas 3 a 5 (un turno cada 15 min)", "Mesas de estrategia · Zona de competencia"], ["15:40", "16:15", "Premiación y cierre", "Tarima"]]};
+function jKind(w){if(w.startsWith('Tiempo libre'))return 'learn';if(w.startsWith('Almuerzo'))return 'meal';if(w.startsWith('Opcional'))return '';if(w.startsWith('Visita'))return 'must';if(w.startsWith('Sugerido'))return 'meet';if(w.startsWith('Observar'))return 'game';if(w.startsWith('Reunión de cierre'))return 'learn';return ''}
+function jTag(k){return {must:['Visita al pit',''],meet:['Reunión de estrategia · solo observar','meet'],game:['Observación de ronda · opcional','opt']}[k]}
+function renderJPick(){
+  document.getElementById('jpick').innerHTML=[1,2,3,4,5,6,7,8].map(g=>`<button class="jbtn" data-g="${g}" aria-pressed="false">Grupo ${g}</button>`).join('');
+  document.getElementById('jpick').addEventListener('click',e=>{const b=e.target.closest('.jbtn');if(b)selectJ(+b.dataset.g)});
+}
+function selectJ(g){
+  document.querySelectorAll('.jbtn').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.g===g));
+  const rows=JUECES[g]||[];
+  const nv=rows.filter(r=>r[2].startsWith('Visita')).length,nm=rows.filter(r=>r[2].startsWith('Sugerido')).length,no=rows.filter(r=>r[2].startsWith('Observar')).length;
+  const addName=w=>w.replace(/equipo (\d{4})$/,(m,n)=>{const i=byNum(+n);return i?`equipo ${n}${TEAMS[i-1][1]?' · '+TEAMS[i-1][1]:''}`:m});
+  document.getElementById('jcal').innerHTML=`
+    <div class="jsum"><span>${nv} visitas</span><span>${nm} reunión sugerida</span></div>
+    <ol class="timeline">${rows.map(([s,e,w,d])=>{const k=jKind(w),t=jTag(k);return `
+      <li class="stop ${k}"><div class="time">${s}<small>${e}</small></div>
+      <div class="box"><b>${addName(w)}</b><span>${d}</span>${t?`<span class="tag ${t[1]}">${t[0]}</span>`:''}</div></li>`}).join('')}
+    </ol>
+    <p class="note"><b>Cada visita:</b> 10 min de conversación + 2–3 min para escribir la tarjeta y dejarla en el pit. <b>Al observar:</b> solo miren, sin hablar con los equipos; anoten en la hoja de observación cómo se coordinan con su equipo aliado. A la zona de competencia no se entra: el juego se mira desde afuera.</p>`;
+  try{localStorage.setItem('bioglow-jueces-b2',g)}catch(e){}
+}
+
+
+const GUEST={};
+const gtxt=r=>GUEST[r]==='Mentores'?'el equipo de mentores (robot de demostración)':'el equipo invitado '+GUEST[r];
+const AFT={A:{3:['13:50','13:58'],4:['14:20','14:28'],5:['14:50','14:58']},B:{3:['14:05','14:13'],4:['14:35','14:43'],5:['15:05','15:13']}};
+const GUESTS=[];
+function tname(n){const i=byNum(+n);if(!i)return '';const x=TEAMS[i-1];return x[1]||x[2]}
+const ARB={"1": ["Micaela Riquelme", "Anna Farias"], "2": ["Rocio Torres", "José María Rufat"], "3": ["Florencia Figueroa", "Javier Aguilar"], "4": ["Raúl Elgueta", "Coni Ocaranza"], "5": ["Belén Ramírez", "Arturo Perales"]};
+function renderMPick(){
+  const el=document.getElementById('mpick');
+  el.innerHTML=[1,2,3,4,5].map(m=>`<button class="jbtn" data-m="${m}" aria-pressed="false">Mesa ${m}</button>`).join('');
+  el.addEventListener('click',e=>{const b=e.target.closest('.jbtn');if(b)selectM(+b.dataset.m)});
+}
+function selectM(m){
+  document.querySelectorAll('#mpick .jbtn').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.m===m));
+  const ts=TURNS5.slice().sort((a,b)=>a[2]-b[2]).map(([hf,r,st,d,row])=>{const z=row.find(q=>q[0]===m);return z?{hf,r,st,d,red:z[1],blue:isSolo(z[2])?null:z[2]}:null}).filter(Boolean);
+  const lastSt=Math.max(...ts.map(q=>q.st));const arb=ARB[m]||['',''];
+  const card=t=>{const morning=t.d===20;
+    const last=t.st===lastSt;const ph=morning?[[0,'Instalación e inserción de modelos'],[5,'Partida (2:30)'],[7.5,'Revisión del puntaje y explicación de reglas con el equipo'],[12.5,'Reinicio de la mesa']]:[[0,'Instalación e inserción de modelos'],[3,'Partida (2:30)'],[5.5,'Revisión breve del puntaje con cada equipo'],[10,last?'Ordenar los modelos y dejar la mesa lista (fin de las rondas)':'Reinicio de la mesa']];
+    const f=x=>{const mm=Math.floor(x),s=Math.round((x-mm)*60);const tot=t.st+mm;return `${Math.floor(tot/60)}:${String(tot%60).padStart(2,'0')}${s?':'+String(s).padStart(2,'0'):''}`};
+    const blue=t.blue?`<strong>${t.blue}</strong>${tname(t.blue)}`:`<strong>${GUEST[t.r]} (invitado)</strong>${tname(GUEST[t.r])} · no suma puntos`;
+    return `<li class="stop game"><div class="time">${fmt(t.st)}<small>${fmt(t.st+t.d)}</small></div>
+    <div class="box"><b>Ronda oficial ${t.r} · Mitad ${t.hf}</b><span>Los equipos entran desde la mesa de estrategia a las ${fmt(t.st-2)}${morning?'. Turno de mañana: 20 min con explicación de reglas':'. Turno de tarde: 15 min'}</span>
+    <div class="sides"><div class="side r">Lado rojo<strong>${t.red}</strong>${tname(t.red)}</div><div class="side a">Lado azul${blue}</div></div>
+    <div class="phases">${ph.map(([x,l])=>`<span><b>${f(x)}</b></span><span>${l}</span>`).join('')}</div>
+    <span class="tag">Anotar el puntaje en la hoja de papel</span></div></li>`};
+  const other=(s,e,title,sub,cls='')=>({st:toMin(s),html:`<li class="stop ${cls}"><div class="time">${s}<small>${e}</small></div><div class="box"><b>${title}</b><span>${sub}</span></div></li>`});
+  const items=[other('8:45','9:05','Llegada y reunión informativa de voluntarios','Con el equipo de SparkTalents.'),
+    other('9:15','9:45','Preparar la mesa','Revisar lados rojo y azul, modelos de misión, huinchas y hojas de puntaje en papel.'),
+    other('10:00','10:15','Ceremonia de apertura','Escenario.'),
+    other('12:30','13:20','Almuerzo de árbitros','No es necesario ir todos juntos.','meal'),
+    other('13:30','13:50','Preparar la mesa para la tarde','Revisar modelos y lados, y confirmar el orden de la tarde. Los primeros equipos entran a la mesa a las 13:58, desde las mesas de estrategia.')];
+  const all=items.concat(ts.map(t=>({st:t.st,html:card(t)}))).sort((a,b)=>a.st-b.st);
+  document.getElementById('mcal').innerHTML=`<div class="jsum"><span>🔴 ${arb[0]}</span><span>🔵 ${arb[1]}</span></div><div class="jsum"><span>${ts.length} turnos</span><span>2 en la mañana por mitad (20 min)</span><span>3 en la tarde por mitad (15 min)</span></div><ol class="timeline">${all.map(x=>x.html).join('')}</ol>`;
+  try{localStorage.setItem('bioglow-mesa-b2',m)}catch(e){}
+}
+
+
+function meetStart(hf,r){return r<3?MEET[hf][r-1]:AFT[hf][r][0]}
+function renderLlamados(){
+  const ts=TURNS5.slice().sort((a,b)=>a[2]-b[2]);
+  document.getElementById('llist').innerHTML='<ol class="timeline">'+ts.map(([hf,r,st,d,row])=>{
+    const rows=row.slice().sort((a,b)=>a[0]-b[0]).map(([m,a,b])=>{const solo=isSolo(b);const bl=solo?`${GUEST[r]} (invitado)`:b;
+      return `<div class="lrow"><div class="lm">Mesa ${m}</div><div class="lsd"><div class="side r"><strong>${a}</strong> ${tname(a)}</div><div class="side a"><strong>${bl}</strong> ${tname(solo?GUEST[r]:b)}${solo?' · no suma':''}</div></div></div>`}).join('');
+    return `<li class="stop game"><div class="time">${meetStart(hf,r)}<small>reunión</small></div><div class="box"><b>Ronda ${r} · Mitad ${hf} · turno ${fmt(st)}–${fmt(st+d)}</b><span>Reunión en las mesas de estrategia desde las ${meetStart(hf,r)}; entran a la mesa a las ${fmt(st-2)}.</span>${rows}</div></li>`}).join('')+'</ol>';
+}
+
+
+const EVENT_DATE='2026-10-17';
+const PROG_T=[['9:15','9:55','Llegada, registro y montaje de pits'],['9:45','10:00','Reunión de coaches (el lugar se informa el día del evento)'],['10:00','10:15','Ceremonia de apertura'],['10:15','10:25','Los equipos vuelven a su pit'],['10:25','12:55','Mañana: reuniones de estrategia, rondas 1 y 2, tiempo de mejora y visitas de consejeros'],['12:55','13:40','Almuerzo por tandas (Mitad A 12:55, Mitad B 13:15)'],['13:40','13:50','Momento de baile'],['14:00','15:30','Rondas oficiales 3, 4 y 5'],['15:40','16:15','Premiación y cierre']];
+let simMin=null;
+function isEventDay(){const d=new Date();const s=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;return s===EVENT_DATE}
+function nowMin(){if(simMin!==null)return simMin;const d=new Date();return d.getHours()*60+d.getMinutes()}
+function phaseOf(d,off){const ph=d===20?[[0,'Instalación'],[5,'Partida'],[7.5,'Revisión y explicación de reglas'],[12.5,'Reinicio de la mesa']]:[[0,'Instalación'],[3,'Partida'],[5.5,'Revisión breve del puntaje'],[10,'Reinicio de la mesa']];let cur=ph[0],nx=null;for(let i=0;i<ph.length;i++){if(off>=ph[i][0]){cur=ph[i];nx=ph[i+1]||null}}return {name:cur[1],left:(nx?nx[0]:d)-off}}
+function mesasHtml(row,r){return row.slice().sort((a,b)=>a[0]-b[0]).map(([m,a,b])=>{const solo=isSolo(b);const bl=solo?`${GUEST[r]} (invitado)`:b;return `<div class="lrow"><div class="lm">Mesa ${m}</div><div class="lsd"><div class="side r"><strong>${a}</strong> ${tname(a)}</div><div class="side a"><strong>${bl}</strong> ${tname(solo?GUEST[r]:b)}</div></div></div>`}).join('')}
+const cdTxt=m=>m<=0?'ahora':m<60?`en ${m} min`:`en ${Math.floor(m/60)} h ${m%60} min`;
+function renderAhora(){
+  const now=nowMin();
+  document.getElementById('nc-time').textContent=fmt(now);
+  document.getElementById('nc-label').textContent=simMin!==null?'Hora simulada':'Hora actual';
+  document.getElementById('simlive').style.display=simMin!==null&&isEventDay()?'':'none';
+  let out='';
+  const act=PROG_T.filter(([s,e])=>toMin(s)<=now&&now<toMin(e));
+  const nextP=PROG_T.find(([s])=>toMin(s)>now);
+  out+=`<div class="nowcard"><h3>Ahora en el evento</h3>${act.length?act.map(a=>`<p class="big">${a[2]}</p><p class="note" style="margin:0">${a[0]}–${a[1]}</p>`).join(''):`<p>${now<toMin('9:15')?'El evento aún no empieza.':now>=toMin('16:15')?'El evento terminó. ¡Gracias por participar!':'—'}</p>`}${nextP?`<p style="margin:8px 0 0">Después: <b>${nextP[2]}</b> a las ${nextP[0]} <span class="cd">${cdTxt(toMin(nextP[0])-now)}</span></p>`:''}</div>`;
+  const ts=TURNS5.slice().sort((a,b)=>a[2]-b[2]);
+  const cur=ts.find(([hf,r,st,d])=>st<=now&&now<st+d);
+  if(cur){const [hf,r,st,d,row]=cur;const ph=phaseOf(d,now-st);out+=`<div class="nowcard"><h3>En la Zona de Competencia: ronda ${r} · Mitad ${hf}</h3><p class="big">${ph.name}</p><p style="margin:0">Turno ${fmt(st)}–${fmt(st+d)} · <span class="cd">quedan ${ph.left} min en esta fase</span></p>${mesasHtml(row,r)}</div>`}
+  else out+=`<div class="nowcard"><h3>En la Zona de Competencia</h3><p>No hay partidas en este momento.</p></div>`;
+  const nx=ts.find(([hf,r,st])=>st>now);
+  if(nx){const [hf,r,st,d,row]=nx;const call=toMin(meetStart(hf,r));out+=`<div class="nowcard"><h3>Próximo turno: ronda ${r} · Mitad ${hf}</h3><p class="big">${fmt(st)} <span class="cd">${cdTxt(st-now)}</span></p><p style="margin:0">${now>=call?'<b>Ya deben estar en su mesa de estrategia.</b>':`Reunión en las mesas de estrategia a las <b>${fmt(call)}</b> (${cdTxt(call-now)}).`}</p>${mesasHtml(row,r)}</div>`}
+  let n=null;try{n=+localStorage.getItem('bioglow-team-b2')}catch(e){}
+  const t=n?byNum(n):null;
+  if(t){const st=teamStops(t);const curS=st.filter(s=>toMin(s.s)<=now&&now<toMin(s.e)&&s.title!=='Mañana');const nxt=st.find(s=>toMin(s.s)>now);
+    out+=`<div class="nowcard"><h3>Mi equipo: ${NUM(t)}${TEAMS[t-1][1]?' · '+TEAMS[t-1][1]:''}</h3>${curS.length?curS.map(s=>`<p class="big">${s.title}</p><p class="note" style="margin:0">${s.s}–${s.e} · ${s.sub}</p>`).join(''):'<p style="margin:0">Ahora no tienen una actividad fija.</p>'}${nxt?`<p style="margin:10px 0 0">Siguiente: <b>${nxt.title}</b> a las ${nxt.s} <span class="cd">${cdTxt(toMin(nxt.s)-now)}</span></p><p class="note" style="margin:2px 0 0">${nxt.sub}</p>`:''}</div>`}
+  else out+=`<p class="note">Elige tu equipo en "Mi equipo" para ver aquí tu próxima actividad.</p>`;
+  document.getElementById('nowbody').innerHTML=out;
+}
+const CUAD=['1 · Nuestra especie: escribir o dibujar su especie nativa','2 · Alianza de estrategia: firma del otro equipo en una reunión','3 · Consejo del árbitro: anotar 1 regla o consejo','5 · Visita de consejeros: sello del grupo de consejeros','6 · Idea de otro equipo: anotar 1 idea que aprendieron','Extra (opcional): foto del equipo en el photo booth'];
+function renderCuaderno(){if(!document.getElementById('cuad'))return;
+  let n=null;try{n=localStorage.getItem('bioglow-team-b2')}catch(e){}
+  const key='bioglow-cuaderno-b2-'+(n||'x');let st={};try{st=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+  document.getElementById('cuad-who').textContent=n?`Equipo ${n}: marquen las misiones a medida que las completan. Se guarda en este teléfono. Entreguen el cuaderno en el buzón del registro hasta las 15:30.`:'Marquen las misiones a medida que las completan. Se guarda en este teléfono. Entreguen el cuaderno en el buzón del registro hasta las 15:30.';
+  const el=document.getElementById('cuad');
+  el.innerHTML=CUAD.map((q,i)=>`<label class="cq"><input type="checkbox" data-i="${i}" ${st[i]?'checked':''}><span>${q}</span></label>`).join('')+`<p class="note" id="cuad-count"></p>`;
+  const upd=()=>{const k=CUAD.slice(0,6).filter((q,i)=>st[i]).length;document.getElementById('cuad-count').textContent=`${k} de 6 misiones completadas${k===6?': ¡listo para el sorteo!':''}`};upd();
+  el.querySelectorAll('input').forEach(c=>c.onchange=()=>{st[c.dataset.i]=c.checked;try{localStorage.setItem(key,JSON.stringify(st))}catch(e){}upd()});
+}
+function initAhora(){
+  const r=document.getElementById('simrange');
+  if(!isEventDay()){simMin=+r.value}
+  r.oninput=()=>{simMin=+r.value;renderAhora()};
+  document.getElementById('simlive').onclick=()=>{simMin=null;renderAhora()};
+  renderAhora();setInterval(()=>{if(!document.getElementById('p-now').hidden)renderAhora()},20000);
+}
+
+function renderAll(){
+  const prog=[['9:15–9:55','Registro y montaje de pits'],['9:45–10:00','Reunión con entrenadores'],['10:00–10:15','Ceremonia de apertura'],['10:15–10:25','Margen antes de la primera actividad'],['10:25–12:55','Mañana: 2 rondas oficiales con reunión de estrategia y tiempo de mejora y 2 visitas de consejeros'],['12:55–13:40','Almuerzo en 2 tandas: Mitad A 12:55–13:20, Mitad B 13:15–13:40'],['13:40–13:50','Momento de baile'],['14:00–15:30','3 rondas oficiales en 5 mesas (turnos de 15 min), con reunión de estrategia de 8 min antes de cada una'],['15:40–16:15','Premiación y cierre']];
+  document.getElementById('tbl-prog').innerHTML='<tr><th>Horario</th><th>Actividad</th></tr>'+prog.map(r=>`<tr><td>${r[0]}</td><td class="wrap-cell">${r[1]}</td></tr>`).join('');
+  const SL=['10:20','10:35','12:00','12:15','12:30','12:45'];const grid={};SL.forEach(s=>grid[s]={});
+  Object.entries(VIS).forEach(([n,v])=>v.forEach(([s,g])=>grid[s][g]=+n));
+  document.getElementById('tbl-pit').innerHTML='<tr><th>Horario</th>'+[1,2,3,4,5,6,7,8].map(g=>`<th>Grupo ${g}</th>`).join('')+'</tr>'+SL.map(s=>`<tr><td>${s}–${fmt(toMin(s)+12)}</td>${[1,2,3,4,5,6,7,8].map(g=>grid[s][g]?`<td data-t="${byNum(grid[s][g])}">Equipo ${grid[s][g]}</td>`:'<td class="muted">Libre</td>').join('')}</tr>`).join('');
+  const m=document.getElementById('tbl-match');
+  const ts=TURNS5.slice().sort((a,b)=>a[2]-b[2]);
+  m.innerHTML='<tr><th>Horario</th><th>Ronda</th>'+[1,2,3,4,5].map(i=>`<th>Mesa ${i}</th>`).join('')+'</tr>'+ts.map(([hf,r,st,d,row])=>{const bym={};row.forEach(([ms,a,b])=>bym[ms]=[a,b]);
+    return `<tr><td>${fmt(st)}–${fmt(st+d)}</td><td>R${r}</td>${[1,2,3,4,5].map(ms=>{const z=bym[ms];if(!z)return '<td class="muted">—</td>';const [a,b]=z;return isSolo(b)?`<td data-t="${byNum(a)}">${a} + ${GUEST[r]} (invitado)</td>`:`<td data-t="${byNum(a)}" data-u="${byNum(b)}">${a} / ${b}</td>`}).join('')}</tr>`}).join('');
+}
+
+function showTab(which){
+  try{const tb=document.getElementById('t-'+which);tb.parentElement.scrollTo({left:tb.offsetLeft-tb.parentElement.clientWidth/2+tb.clientWidth/2,behavior:'auto'})}catch(e){}
+  ['idx','all','mine','plan','jue','mes','lla','inf'].forEach(w=>{
+    document.getElementById('t-'+w).setAttribute('aria-selected',w===which);
+    document.getElementById('p-'+w).hidden=w!==which;
+  });
+}
+['idx','all','mine','plan','jue','mes','lla','inf'].forEach(w=>document.getElementById('t-'+w).onclick=()=>{showTab(w);if(w==='inf')renderCuaderno()});
+renderCuaderno();if(/info/.test(location.hash))setTimeout(()=>showTab('inf'),0);
+renderLlamados();if(/llamados/.test(location.hash))setTimeout(()=>showTab('lla'),0);
+renderMPick();
+{let mg=null;const mh=location.hash.match(/mesa-(\d)/);if(mh)mg=+mh[1];if(!mg){try{mg=+localStorage.getItem('bioglow-mesa-b2')}catch(e){}}if(mg>=1&&mg<=5)selectM(mg);if(mh)setTimeout(()=>showTab('mes'),0);}
+renderJPick();
+{let jg=null;const jm=location.hash.match(/(?:jueces|consejeros)-(\d)/);if(jm)jg=+jm[1];if(!jg){try{jg=+localStorage.getItem('bioglow-jueces-b2')}catch(e){}}if(jg>=1&&jg<=8)selectJ(jg);if(jm)setTimeout(()=>showTab('jue'),0);}
+
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+function renderIdx(q=''){
+  const nq=norm(q.trim());
+  const items=TEAMS.map((x,i)=>({t:i+1,n:x[0],name:x[1],school:x[2],g:groupOf(i+1)}))
+    .filter(x=>!nq||norm(`${x.n} ${x.name} ${x.school}`).includes(nq));
+  document.getElementById('idx').innerHTML=items.map(x=>`
+    <li><button class="idx-row" data-t="${x.t}">
+      <span class="idx-num" style="background:${GCOL[x.g]}" data-g="${x.g}">${x.n}</span>
+      <span class="idx-text"><b>${x.name||x.school}</b>${x.name?`<span>${x.school}</span>`:''}</span>
+    </button></li>`).join('');
+  document.getElementById('idx-empty').hidden=items.length>0;
+}
+document.getElementById('q').addEventListener('input',e=>renderIdx(e.target.value));
+document.getElementById('idx').addEventListener('click',e=>{const b=e.target.closest('.idx-row');if(b){showTab('mine');select(+b.dataset.t,true)}});
+renderIdx();
+
+renderPicker();renderAll();
+let start=null;
+const hm=location.hash.match(/equipo-(\d+)/);
+if(hm)start=byNum(+hm[1]);
+if(!start){try{start=byNum(+localStorage.getItem('bioglow-team-b2'))}catch(e){}}
+if(start){select(start,false);showTab('mine');}
+</script>
+<script>
+(function(){
+  function apply(m){
+    if(m==='light'||m==='dark') document.documentElement.setAttribute('data-theme',m); else document.documentElement.removeAttribute('data-theme');
+    document.querySelectorAll('.theme-sw button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.th===m));
+  }
+  var m='auto'; try{m=localStorage.getItem('bioglow-theme')||'auto'}catch(e){}
+  apply(m);
+  document.querySelectorAll('.theme-sw button').forEach(b=>b.addEventListener('click',()=>{apply(b.dataset.th);try{localStorage.setItem('bioglow-theme',b.dataset.th)}catch(e){}}));
+})();
+</script>
+</body>
+</html>

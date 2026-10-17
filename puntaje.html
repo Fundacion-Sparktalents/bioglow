@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://firebasestorage.googleapis.com; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>BIOGLOW · Puntajes</title>
+<meta charset="utf-8">
+<script>window.TORNEO={teams:[[2001, "Chappie SEK Robotics", "Colegio Internacional SEK Chile"], [2002, "Galactech", "Craighouse School"], [2004, "Alpha Code", "Colegio Huinganal"], [2005, "Planta Robotic", "Club LEGO Kéikruk SpA"], [2006, "MASTERSEK", "Colegio Internacional SEK Pacífico"], [2007, "Spark-code", "St. Margaret's School"], [2009, "Steamers", "Instituto Hebreo"], [2010, "Ñutech", "Colegio San Vicente de Paúl"], [2011, "Medialab", "Colegio San Ignacio El Bosque"], [2013, "AlmenPower", "Colegio Polivalente Almendral de La Pintana"], [2016, "Los Halcones", "Departamento de Educación Huechuraba"], [2017, "Los Mosquitos", "After Huechuraba"], [2018, "Neo Hackers", "Escuela Golda Meir"], [2021, "Nuclear Technology", "Colegio Everest"], [2022, "Entuercas", "Colegio Básico San Vicente"], [2023, "Proud to be Deaf", "Escuela Santiago Apóstol"], [2024, "FireRobots", "Colegio Tierra del Fuego"], [2025, "Robótica El Llano", "Liceo Municipal Técnico Profesional El Llano"], [2026, "MICHAIBOT", "Colegio Michaihue"], [2028, "Las chicas del código", "Colegio Polivalente Almendral de La Pintana"]],turns:[["A", 1, 640, 20, [[1, 2010, 2011], [2, 2004, 2001], [3, 2005, 2013], [4, 2009, 2006], [5, 2007, 2002]]], ["B", 1, 665, 20, [[1, 2025, 2026], [2, 2018, 2016], [3, 2021, 2028], [4, 2024, 2022], [5, 2023, 2017]]], ["A", 2, 695, 20, [[1, 2009, 2007], [2, 2002, 2005], [3, 2004, 2006], [4, 2010, 2013], [5, 2001, 2011]]], ["B", 2, 720, 20, [[1, 2024, 2023], [2, 2017, 2021], [3, 2018, 2022], [4, 2025, 2028], [5, 2016, 2026]]], ["A", 3, 840, 15, [[1, 2006, 2013], [2, 2010, 2009], [3, 2011, 2007], [4, 2001, 2002], [5, 2004, 2005]]], ["B", 3, 855, 15, [[1, 2022, 2017], [2, 2025, 2024], [3, 2026, 2023], [4, 2016, 2028], [5, 2018, 2021]]], ["A", 4, 870, 15, [[1, 2005, 2001], [2, 2007, 2006], [3, 2002, 2010], [4, 2011, 2004], [5, 2013, 2009]]], ["B", 4, 885, 15, [[1, 2021, 2016], [2, 2023, 2022], [3, 2017, 2025], [4, 2026, 2018], [5, 2028, 2024]]], ["A", 5, 900, 15, [[1, 2002, 2004], [2, 2013, 2011], [3, 2001, 2009], [4, 2005, 2007], [5, 2006, 2010]]], ["B", 5, 915, 15, [[1, 2017, 2018], [2, 2028, 2026], [3, 2016, 2024], [4, 2021, 2023], [5, 2022, 2025]]]],arb:{"1": ["Micaela Riquelme", "Anna Farias"], "2": ["Rocio Torres", "José María Rufat"], "3": ["Florencia Figueroa", "Javier Aguilar"], "4": ["Raúl Elgueta", "Coni Ocaranza"], "5": ["Belén Ramírez", "Arturo Perales"]}};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#1f3a17">
+<style>
+:root {
+  --bg: #f5f7ef; --card: #ffffff; --ink: #1d2a17; --muted: #5f6b58; --line: #e1e7d6;
+  --fll-orange: #ffa02e; --fll-green: #4c9a2a; --fll-green-ink: #ffffff; --fll-dark: #1f3a17;
+  --fll-leaf: #bfdd8f; --leaf-soft: #ecf5df; --tile: #f3f6ec;
+  --warn: #9a4a05; --warn-soft: #fff1dc; --bad: #c0362c; --bad-soft: #fdecea;
+  --glow: var(--fll-green);
+  --display: "Fredoka", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r: 20px; --tap: 52px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1a0b; --card: #172615; --ink: #eef5e6; --muted: #a5b59a; --line: #2a3d24;
+    --fll-green: #8fd16a; --fll-green-ink: #10200b; --fll-dark: #0a1407;
+    --fll-leaf: #4f7a35; --leaf-soft: #22381a; --tile: #1e3019;
+    --warn: #f3b766; --warn-soft: #3a2a10; --bad: #ff7b70; --bad-soft: #3a1714;
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+button, input, select, textarea { font: inherit; color: inherit; }
+.hidden { display: none !important; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 14px 16px 130px; }
+
+/* Cabecera */
+header.top { background: var(--fll-dark); color: #fff; padding: 10px 16px;
+  padding-top: calc(10px + env(safe-area-inset-top)); }
+header.top .row { max-width: 640px; margin: 0 auto; display: flex; align-items: center; gap: 10px; }
+.logo { display: flex; align-items: center; gap: 8px; font: 600 18px/1 var(--display); color: inherit; text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; }
+.logo .tag { background: #bfdd8f; color: #1f3a17; border: 2px solid #1f3a17; box-shadow: 0 0 0 2px #bfdd8f;
+  border-radius: 8px; padding: 4px 9px 3px; font-weight: 700; letter-spacing: .5px; }
+.who { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.who .name { max-width: 40vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: .9; }
+.linkbtn { background: rgba(255,255,255,.14); border: 0; color: #fff; border-radius: 999px; padding: 6px 12px;
+  font: 600 14px/1 var(--display); cursor: pointer; }
+
+/* Tarjetas con franja naranja (estilo material oficial) */
+.card { position: relative; background: var(--card); border-radius: var(--r); padding: 16px; margin: 16px 0;
+  box-shadow: 0 1px 0 var(--line), 0 6px 18px rgba(31,58,23,.06); overflow: hidden; }
+.card.fx { padding-top: 40px; }
+.leaf { position: absolute; right: 64px; top: 0; width: 120px; height: 70px; z-index: 0; pointer-events: none; }
+.band { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: var(--fll-orange); color: #1d1d1b; border-radius: 0 999px 999px 0; margin: 0 0 0 -16px; padding: 8px 14px 8px 16px; }
+.band b { font: 700 28px/1 var(--display); letter-spacing: .3px; }
+.band .pts { font: 700 17px/1 var(--display); background: #fff; color: #1d1d1b; border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
+.title { font: 700 26px/1.1 var(--display); color: var(--fll-green); margin: 12px 0 2px; }
+.en { color: var(--muted); font-size: 13px; }
+h2 { font: 700 24px/1.15 var(--display); color: var(--fll-green); margin: 0 0 12px; }
+.help { font-size: 14px; color: var(--muted); margin-top: 6px; }
+
+/* Formularios y botones */
+label.f { display: block; font: 600 17px/1.2 var(--display); margin: 14px 0 8px; }
+input.txt, select, textarea { width: 100%; min-height: var(--tap); border: 2px solid var(--line); border-radius: 14px;
+  padding: 12px 14px; background: var(--card); font-size: 18px; outline: none; }
+input.txt:focus, textarea:focus, .step input:focus { border-color: var(--fll-green); box-shadow: 0 0 0 3px var(--leaf-soft); }
+textarea { min-height: 80px; font-size: 16px; }
+.btn { min-height: 56px; border-radius: 16px; border: 2px solid var(--line); background: var(--card);
+  padding: 10px 16px; font: 600 18px/1.15 var(--display); cursor: pointer; }
+.btn.primary { background: var(--fll-green); border-color: var(--fll-green); color: var(--fll-green-ink); }
+.btn.danger { background: var(--bad); border-color: var(--bad); color: #fff; }
+.btn.block { width: 100%; }
+.btn:disabled { opacity: .5; }
+.msg { padding: 12px 14px; border-radius: 14px; margin: 12px 0; font-size: 15px; }
+.msg.err { background: var(--bad-soft); color: var(--bad); }
+.msg.warn { background: var(--warn-soft); color: var(--warn); }
+.msg.ok { background: var(--leaf-soft); }
+
+/* Login */
+.hero { display: block; width: 100%; max-width: 300px; aspect-ratio: 1; margin: 0 auto 4px; border-radius: 24px; background: #f8f9fb; object-fit: cover; }
+.login-title { text-align: center; }
+
+/* Rondas */
+.chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; margin-top: 14px; }
+.chip { min-height: 56px; border-radius: 16px; border: 2px solid var(--line); background: var(--tile);
+  font: 600 19px/1 var(--display); cursor: pointer; }
+.chip.on { background: var(--fll-green); color: var(--fll-green-ink); border-color: var(--fll-green); }
+
+/* Equipos */
+.teams { display: grid; gap: 10px; margin-top: 12px; }
+.team { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px 14px; border: 0;
+  border-radius: 16px; background: var(--tile); text-align: left; width: 100%; cursor: pointer; }
+.team .num { font: 700 24px/1 var(--display); min-width: 66px; }
+.team .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; }
+.team .done { font: 600 15px/1 var(--display); color: var(--fll-green-ink); background: var(--fll-green); border-radius: 999px; padding: 6px 10px; white-space: nowrap; }
+.team.scored { background: var(--leaf-soft); }
+.turno { margin: 14px 0 4px; }
+.turno-h { font: 600 15px/1.2 var(--display); color: var(--muted); margin-bottom: 8px; }
+.sides2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.side-btn { border: 0; border-radius: 16px; padding: 12px; text-align: left; cursor: pointer; min-height: 116px;
+  display: flex; flex-direction: column; gap: 4px; color: #fff; }
+.side-btn.rojo { background: #d6453b; } .side-btn.azul { background: #2f6fdb; }
+.side-btn .lado { font: 600 13px/1 var(--display); letter-spacing: .6px; text-transform: uppercase; opacity: .9; }
+.side-btn .n { font: 700 36px/1 var(--display); }
+.side-btn .nm { font-size: 14px; line-height: 1.25; }
+.side-btn .ok { align-self: flex-start; margin-top: auto; background: #fff; color: #1d1d1b; border-radius: 999px; padding: 4px 9px; font: 600 14px/1 var(--display); }
+.side-btn:disabled { opacity: .45; }
+.asig { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; margin-top: 14px; background: var(--leaf-soft); border-radius: 14px; padding: 10px 12px; font: 600 16px/1.25 var(--display); }
+.asig .dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+.asig .dot.rojo { background: #d6453b; } .asig .dot.azul { background: #2f6fdb; }
+.asig .volver { margin-left: auto; border: 0; background: var(--fll-green); color: var(--fll-green-ink); border-radius: 999px; padding: 8px 12px; font: 600 14px/1 var(--display); cursor: pointer; }
+.chip .star { color: var(--fll-orange); }
+.side-btn.mio { box-shadow: 0 0 0 4px var(--card), 0 0 0 7px var(--fll-orange); }
+.side-btn.otro { opacity: .55; }
+.side-btn .tu { align-self: flex-start; background: var(--fll-orange); color: #1d1d1b; border-radius: 999px; padding: 3px 9px; font: 700 12px/1.2 var(--display); text-transform: uppercase; letter-spacing: .4px; }
+.lista-h { font: 600 16px/1.2 var(--display); margin: 18px 0 0; color: var(--muted); }
+.firma { margin: 26px 0 6px; background: var(--tile); border-radius: 16px; padding: 12px; }
+.firma-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; font: 700 21px/1.1 var(--display); }
+.firma-pad { display: block; width: 100%; height: 170px; background: #fff; border: 2px dashed #9bb38a; border-radius: 12px; touch-action: none; cursor: crosshair; }
+.firma.ok .firma-pad { border-style: solid; border-color: var(--fll-green); }
+.firma.off .firma-pad { opacity: .3; pointer-events: none; }
+.firma.falta { box-shadow: 0 0 0 3px var(--bad); }
+.firma-borrar { border: 0; background: var(--card); color: var(--ink); border-radius: 999px; padding: 8px 14px; font: 600 15px/1 var(--display); cursor: pointer; }
+.nofirma { display: flex; gap: 10px; align-items: center; margin-top: 10px; font-size: 15px; }
+.nofirma input { width: 22px; height: 22px; accent-color: var(--fll-green); }
+.reg { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.reg:last-child { border-bottom: 0; }
+.reg .st { font-size: 13px; color: var(--muted); }
+.reg .p { font: 700 24px/1 var(--display); color: var(--fll-green); white-space: nowrap; }
+.reg .p small { font-size: 13px; color: var(--muted); }
+
+/* Hoja de puntaje */
+.sticky { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 10px 0 4px; }
+.sticky .bar { display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 18px; padding: 10px 10px 10px 14px;
+  box-shadow: 0 6px 18px rgba(31,58,23,.12); }
+.sticky .t { flex: 1; min-width: 0; }
+.sticky .t b { display: block; font: 700 19px/1.15 var(--display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sticky .t small { color: var(--muted); font-size: 14px; }
+.score { min-width: 92px; text-align: center; background: var(--fll-green); color: var(--fll-green-ink); border-radius: 14px; padding: 6px 10px; }
+.score .lbl { font: 600 11px/1 var(--display); letter-spacing: 1px; opacity: .85; }
+.score .val { font: 700 34px/1 var(--display); }
+.score.zero { background: var(--bad); color: #fff; }
+.crit { padding: 14px 0 4px; }
+.crit + .crit { border-top: 1px solid var(--line); }
+.crit .lab { font-weight: 600; font-size: 17px; line-height: 1.3; margin-bottom: 10px; }
+.seg { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg button { flex: 1 0 0; min-width: 52px; min-height: 56px; border-radius: 14px; border: 2px solid transparent;
+  background: var(--tile); font: 600 21px/1 var(--display); cursor: pointer; }
+.seg button.on { background: var(--fll-green); color: var(--fll-green-ink); }
+.seg.pen button.on:not([data-v="0"]) { background: var(--bad); color: #fff; }
+.seg.pen { display: grid; grid-template-columns: 1fr 1fr; }
+.seg.pen button { font-size: 18px; }
+.seg button:disabled { opacity: .35; }
+.step { display: flex; align-items: center; gap: 10px; }
+.step button { width: 64px; height: 60px; border-radius: 16px; border: 0; background: var(--tile);
+  font: 600 32px/1 var(--display); cursor: pointer; }
+.step button[data-d="1"] { background: var(--fll-green); color: var(--fll-green-ink); }
+.step input { width: 96px; height: 60px; text-align: center; font: 700 30px/1 var(--display); border: 2px solid var(--line);
+  border-radius: 16px; background: var(--card); outline: none; }
+.gp-seg button { font-size: 17px; line-height: 1.15; padding: 6px; }
+.gp-seg button span { display: block; font-size: 24px; }
+
+.footer { position: fixed; left: 0; right: 0; bottom: 0; background: var(--card); box-shadow: 0 -6px 18px rgba(31,58,23,.1);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); z-index: 20; }
+.footer .in { max-width: 640px; margin: 0 auto; display: flex; gap: 10px; }
+.footer .in .btn { flex: 1; }
+
+/* Modal de revisión */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--card); width: 100%; max-width: 560px; max-height: 92vh; max-height: 92dvh; overflow: auto;
+  display: flex; flex-direction: column; border-radius: 22px 22px 0 0;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); }
+@media (min-width: 700px) {
+  .modal { align-items: center; padding: 24px; }
+  .sheet { border-radius: 22px; max-height: calc(100vh - 48px); }
+}
+.sheet .mh { flex: 0 0 auto; text-align: center; padding-bottom: 6px; }
+.sheet .mh h2 { margin: 0; font-size: 22px; color: var(--ink); }
+.sheet .mb { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; margin: 0 -16px; padding: 2px 16px 8px; }
+.sheet .mf { flex: 0 0 auto; padding-top: 10px; border-top: 1px solid var(--line); }
+.big { font: 700 64px/1 var(--display); text-align: center; color: var(--fll-green); margin: 4px 0; }
+.big small { display: block; font: 600 14px/1.2 var(--display); color: var(--muted); letter-spacing: 1px; }
+.rv-mis { position: relative; margin: 44px 0 6px; }
+.rv-mis .leaf { top: -44px; right: 70px; }
+.rv-mis .title { margin-top: 10px; margin-bottom: 10px; }
+.rv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rv-grid .tile:last-child:nth-child(odd) { grid-column: span 2; }
+.tile { background: var(--tile); border-radius: 16px; padding: 12px 12px 10px; min-height: 96px; display: flex; flex-direction: column; justify-content: space-between; }
+.tile .n { font: 700 46px/1 var(--display); color: var(--ink); }
+.tile .n.yes { color: var(--fll-green); }
+.tile .n.off { color: var(--muted); opacity: .55; }
+.tile .t { font-size: 13px; line-height: 1.25; color: var(--muted); margin-top: 6px; }
+.tile.zero { background: var(--bad-soft); }
+.tile.zero .n { color: var(--bad); }
+
+/* Diálogos */
+.dlg { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.dlg-card { background: var(--card); width: 100%; max-width: 420px; border-radius: 22px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.3);
+  animation: dlgIn .16s ease-out; }
+@keyframes dlgIn { from { transform: scale(.94); opacity: 0; } to { transform: none; opacity: 1; } }
+.dlg-band { background: var(--fll-orange); color: #1d1d1b; padding: 14px 18px; font: 700 24px/1.1 var(--display); }
+.dlg-band.danger { background: var(--bad); color: #fff; }
+.dlg-msg { padding: 16px 18px 6px; font-size: 17px; line-height: 1.45; }
+.dlg-msg b { font-weight: 700; }
+.dlg-btns { display: flex; gap: 10px; padding: 14px 18px 18px; }
+.dlg-btns .btn { flex: 1; }
+
+.spinner { width: 22px; height: 22px; border: 3px solid var(--line); border-top-color: var(--fll-green); border-radius: 50%;
+  animation: sp 1s linear infinite; display: inline-block; vertical-align: middle; }
+@keyframes sp { to { transform: rotate(360deg); } }
+.loading { text-align: center; font: 600 18px/1 var(--display); color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="row">
+    <a class="logo" href="index.html#inicio" onclick="return irInicio()" aria-label="Ir al inicio"><span class="tag">BIOGLOW</span> Puntajes</a>
+    <div class="who hidden" id="who"><span class="name" id="whoName"></span><button class="linkbtn" onclick="logout()">Salir</button></div>
+  </div>
+</header>
+
+<!-- Cargando -->
+<div class="wrap" id="vLoading">
+  <div class="card loading"><img class="hero" src="https://firebasestorage.googleapis.com/v0/b/sparktalents-24.appspot.com/o/images%2Fbioglow%2Ffll-bioglow-animated-logo.gif?alt=media&amp;token=082c4041-7263-4ddf-ac27-4faf8203e2e6" alt="BIOGLOW" style="max-width:200px"><span class="spinner"></span> Cargando…</div>
+</div>
+
+<!-- Login -->
+<div class="wrap hidden" id="vLogin">
+  <div class="card">
+    <img class="hero" src="https://firebasestorage.googleapis.com/v0/b/sparktalents-24.appspot.com/o/images%2Fbioglow%2Ffll-bioglow-animated-logo.gif?alt=media&amp;token=082c4041-7263-4ddf-ac27-4faf8203e2e6" alt="FIRST LEGO League BIOGLOW">
+    <h2 class="login-title">Ingreso de árbitros</h2>
+    <label class="f" for="lEmail">Usuario o email</label>
+    <input class="txt" id="lEmail" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Ej.: mica">
+    <label class="f" for="lPin">PIN</label>
+    <input class="txt" id="lPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="PIN del organizador">
+    <div id="lMsg"></div>
+    <button class="btn primary block" id="lBtn" style="margin-top:16px" onclick="doLogin()">Ingresar</button>
+  </div>
+</div>
+
+<!-- Selección ronda / equipo -->
+<div class="wrap hidden" id="vSelect">
+  <section class="card fx">
+    <svg class="leaf" viewBox="0 0 120 70" aria-hidden="true"><g fill="var(--fll-leaf)"><path d="M60 70C44 48 46 20 70 2c14 24 10 50-10 68z"/><path d="M57 70C32 64 14 46 10 24c28 4 44 22 47 46z"/><path d="M63 70c14-18 34-28 54-30-6 20-28 32-54 30z"/><path d="M52 70C40 60 30 58 18 60c8 10 20 12 34 10z"/></g><g fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.5"><path d="M60 68C61 46 64 26 69 6"/><path d="M56 68C44 54 30 40 13 26"/><path d="M64 68c16-12 32-20 51-27"/></g></svg>
+    <div class="band"><b>Paso 1</b><span class="pts">Ronda y mesa</span></div>
+    <div class="chips" id="rondas"></div>
+    <div id="mesaWrap" class="hidden"><label class="f">Mesa</label><div class="chips" id="mesas"></div><div class="asig hidden" id="asigInfo"></div></div>
+  </section>
+  <section class="card fx">
+    <svg class="leaf" viewBox="0 0 120 70" aria-hidden="true"><g fill="var(--fll-leaf)"><path d="M60 70C44 48 46 20 70 2c14 24 10 50-10 68z"/><path d="M57 70C32 64 14 46 10 24c28 4 44 22 47 46z"/><path d="M63 70c14-18 34-28 54-30-6 20-28 32-54 30z"/><path d="M52 70C40 60 30 58 18 60c8 10 20 12 34 10z"/></g><g fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.5"><path d="M60 68C61 46 64 26 69 6"/><path d="M56 68C44 54 30 40 13 26"/><path d="M64 68c16-12 32-20 51-27"/></g></svg>
+    <div class="band"><b>Paso 2</b><span class="pts">Equipo</span></div>
+    <div id="mesaTeams"></div>
+    <div class="lista-h hidden" id="listaH">Todos los equipos</div>
+    <input class="txt" id="buscar" type="search" placeholder="Buscar número o nombre…" oninput="renderTeams()" style="margin-top:14px">
+    <div id="estadoMsg" class="help"></div>
+    <div class="teams" id="teams"></div>
+  </section>
+  <section class="card">
+    <h2>Mis últimos registros</h2>
+    <div id="misRegs" class="help">—</div>
+  </section>
+</div>
+
+<!-- Hoja de puntaje -->
+<div class="wrap hidden" id="vScore">
+  <div class="sticky">
+    <div class="bar">
+      <div class="t"><b id="sTeam"></b><small id="sRound"></small></div>
+      <div class="score" id="sBox"><div class="lbl">PUNTAJE</div><div class="val" id="sVal">0</div></div>
+    </div>
+  </div>
+  <div id="draftMsg"></div>
+  <div id="form"></div>
+  <section class="card">
+    <h2>Notas <span class="en">(opcional)</span></h2>
+    <textarea id="notas" placeholder="Observaciones del árbitro" oninput="draft.notas=this.value;touch()"></textarea>
+  </section>
+</div>
+
+<div class="footer hidden" id="fScore">
+  <div class="in">
+    <button class="btn" onclick="cancelScore()">Cancelar</button>
+    <button class="btn primary" onclick="openReview()">Revisar y enviar</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal hidden" id="modal"><div class="sheet" id="modalBody"></div></div>
+<div class="dlg hidden" id="dlg" role="dialog" aria-modal="true"><div class="dlg-card" id="dlgCard"></div></div>
+
+<script>
+var SCORING = {"season":"BIOGLOW","version":2,"sections":[{"id":"M01","badge":"Misión 01","name":"Microbiomas poderosos","en":"Mighty Microbiomes","intro":"Especies clave en los microbiomas","criteria":[{"id":"m01YoungForest","type":"choice","label":"Bosque joven","en":"Young forest","max":3,"perUnit":20,"lastLabel":"3+"},{"id":"m01GrandTree","type":"choice","label":"Árbol grande","en":"Grand tree","max":3,"perUnit":20,"lastLabel":"3+"},{"id":"m01HollowTree","type":"choice","label":"Árbol hueco","en":"Hollow tree","max":3,"perUnit":20,"lastLabel":"3+"},{"id":"lupQueenOppositeKnockedDown","type":"bonus","points":40,"label":"Bono","en":"Bonus","help":"Al menos 3 especies clave en el microbioma del bosque joven y la reina invasora del lado opuesto del campo está derribada.","enabledWhen":{"field":"m01YoungForest","min":3},"disabledHelp":"Se habilita con bosque joven en 3 o más."}]},{"id":"M02","badge":"Misión 02","name":"Raíces de renovación","en":"Roots of Renewal","criteria":[{"id":"m02GrandTreeBase","type":"counter","label":"Recursos en la base del árbol grande","en":"Resources in the grand tree base","max":99,"perUnit":5},{"id":"m02CanopyChamber","type":"counter","label":"Recursos en la cámara del dosel","en":"Resources in the canopy chamber","max":15,"perUnit":10}]},{"id":"M03","badge":"Misión 03","name":"Cascada de la cueva","en":"Cave Waterfall","criteria":[{"id":"m03CaveWaterfall","type":"counter","label":"Especies clave que pasaron por la cascada de la cueva","en":"Keystone species cycled through the cave waterfall","max":50,"perUnit":5}]},{"id":"M04","badge":"Misión 04","name":"Despertar de la selva tropical","en":"Rainforest Awakening","criteria":[{"id":"m04NestReleased","type":"yesno","label":"Todas las especies clave se liberan del nido","en":"All keystone species are released from the nest","points":30},{"id":"m04HollowTreeReleased","type":"yesno","label":"Todos los recursos se liberan del árbol hueco","en":"All resources are released from the hollow tree","points":20}]},{"id":"M05","badge":"Misión 05","name":"Refugio central","en":"Central Haven","criteria":[{"id":"m05CentralHaven","type":"counter","label":"Especies clave o recursos completamente en el refugio central","en":"Keystone species or resources resting completely in the central haven","max":99,"perUnit":5}]},{"id":"LUP","badge":"Desafío Level Up","name":"Ataque invasor","en":"Invasive Attack","criteria":[{"id":"lupAdded","type":"choice","label":"Especies invasoras añadidas","en":"Invasive species added","max":5,"perUnit":20,"lastLabel":"5"},{"id":"lupContainment","type":"counter","label":"Especies invasoras en la zona de contención","en":"Invasive species in the containment zone","max":12,"perUnit":10}]},{"id":"PEN","badge":"Penalizaciones","name":"Penalizaciones","en":"Penalties","criteria":[{"id":"penalties","type":"penalty","label":"Número de penalizaciones","en":"Number of penalties received","max":3,"tiers":[{"value":0,"label":"0","points":0},{"value":1,"label":"1 (−10)","points":-10},{"value":2,"label":"2 (−30)","points":-30},{"value":3,"label":"3+ (puntaje 0)","matchZero":true}]}]}],"gp":{"id":"gp","label":"Gracious Professionalism®","help":"demostrado en la mesa de juego","levels":[{"value":2,"label":"En desarrollo","en":"DEVELOPING"},{"value":3,"label":"Logrado","en":"ACCOMPLISHED"},{"value":4,"label":"Excede","en":"EXCEEDS"}],"defaultValue":3}};
+function calcularPuntaje(rules, raw) {
+  raw = raw || {};
+  var values = {};
+  var total = 0;
+  var matchZero = false;
+  var sections = [];
+
+  function toInt(v, max) {
+    var n = parseInt(v, 10);
+    if (!isFinite(n) || n < 0) n = 0;
+    return n > max ? max : n;
+  }
+
+  // Primero normalizar todo (el bono depende de otro campo).
+  rules.sections.forEach(function (s) {
+    s.criteria.forEach(function (c) {
+      if (c.type === 'yesno' || c.type === 'bonus') values[c.id] = raw[c.id] === true || raw[c.id] === 'true';
+      else values[c.id] = toInt(raw[c.id], c.max);
+    });
+  });
+
+  rules.sections.forEach(function (s) {
+    var sScore = 0;
+    s.criteria.forEach(function (c) {
+      var v = values[c.id];
+      if (c.type === 'choice' || c.type === 'counter') {
+        sScore += v * c.perUnit;
+      } else if (c.type === 'yesno') {
+        if (v) sScore += c.points;
+      } else if (c.type === 'bonus') {
+        var ok = values[c.enabledWhen.field] >= c.enabledWhen.min;
+        if (!ok) values[c.id] = false; // bono inhabilitado no cuenta
+        else if (v) sScore += c.points;
+      } else if (c.type === 'penalty') {
+        var tier = null;
+        for (var i = 0; i < c.tiers.length; i++) if (v >= c.tiers[i].value) tier = c.tiers[i];
+        if (tier && tier.matchZero) matchZero = true;
+        else if (tier) sScore += tier.points;
+      }
+    });
+    sections.push({ id: s.id, score: sScore });
+    total += sScore;
+  });
+
+  var gpVals = rules.gp.levels.map(function (l) { return l.value; });
+  var gp = parseInt(raw.gp, 10);
+  values.gp = gpVals.indexOf(gp) >= 0 ? gp : rules.gp.defaultValue;
+
+  if (matchZero || total < 0) total = 0;
+  return { total: total, values: values, sections: sections, matchZero: matchZero };
+}
+
+var API_URL = "https://script.google.com/macros/s/AKfycbxiIThtyZnpvg-kD2LhicMrJZ8ipp5clcydPGF6w1EiLzLJHxeSJyYySfbYxwOraB-5/exec";           // vacío dentro de Apps Script; URL /exec en la página externa
+var TORNEO = window.TORNEO || null;       // cruces por mesa (copiados de la web del torneo)
+var LS_TOKEN = 'bioglow_token', LS_DRAFT = 'bioglow_draft', LS_RONDA = 'bioglow_ronda', LS_MESA = 'bioglow_mesa';
+var state = { token: null, arbitro: null, rondas: [], equipos: [], ronda: null, estado: {}, mesa: Number(lsGet(LS_MESA)) || 0 };
+var draft = null; // { submissionId, ronda, equipo:{numero,nombre}, valores:{}, notas, intentado }
+var sending = false;
+
+// ── utilidades ──
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+function uuid() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+function show(view) {
+  ['vLoading', 'vLogin', 'vSelect', 'vScore'].forEach(function (v) { $(v).classList.toggle('hidden', v !== view); });
+  $('fScore').classList.toggle('hidden', view !== 'vScore');
+  window.scrollTo(0, 0);
+}
+function call(fn) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  if (!API_URL) {
+    return new Promise(function (res, rej) {
+      var r = google.script.run.withSuccessHandler(res).withFailureHandler(rej);
+      r[fn].apply(r, args);
+    });
+  }
+  // Página externa: POST text/plain (sin preflight CORS) y sin cookies de Google.
+  var ctrl = window.AbortController ? new AbortController() : null;
+  var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 30000) : null;
+  return fetch(API_URL, {
+    method: 'POST', credentials: 'omit', redirect: 'follow', cache: 'no-store',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ fn: fn, args: args }),
+    signal: ctrl ? ctrl.signal : undefined
+  }).then(function (resp) {
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    return resp.json();
+  }).then(function (j) {
+    if (j.error) throw new Error(j.error);
+    return j.result;
+  }).catch(function (e) {
+    throw new Error(e && e.name === 'AbortError' ? 'El servidor tardó demasiado' : (e && e.message) || 'Sin conexión');
+  }).finally(function () { if (timer) clearTimeout(timer); });
+}
+/** Logo: en la página externa vuelve al inicio de la web del torneo (la hoja en curso
+ * queda guardada en el celular); dentro de Apps Script no hay web, vuelve a la selección. */
+function irInicio() {
+  if (API_URL) return true; // sigue el enlace index.html#inicio
+  if (state.token && state.arbitro) { closeModal(); irASeleccion(); }
+  return false;
+}
+function sesionPerdida(r) {
+  if (r && r.sesion === false) { lsSet(LS_TOKEN, null); state.token = null; show('vLogin'); $('lMsg').innerHTML = '<div class="msg warn">Su sesión expiró. Ingrese de nuevo; la hoja en curso se conserva.</div>'; return true; }
+  return false;
+}
+function modal(html) { $('modalBody').innerHTML = html; $('modal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+/**
+ * Diálogo propio (reemplaza confirm/alert del navegador). Devuelve Promise<boolean>.
+ * opts: { titulo, html, ok, cancelar (false = sin botón cancelar), peligro }
+ */
+function dialogo(opts) {
+  return new Promise(function (resolve) {
+    var card = $('dlgCard');
+    card.innerHTML = '<div class="dlg-band' + (opts.peligro ? ' danger' : '') + '">' + esc(opts.titulo || 'Atención') + '</div>' +
+      '<div class="dlg-msg">' + (opts.html || '') + '</div><div class="dlg-btns">' +
+      (opts.cancelar === false ? '' : '<button class="btn" data-r="0">' + esc(opts.cancelar || 'Cancelar') + '</button>') +
+      '<button class="btn ' + (opts.peligro ? 'danger' : 'primary') + '" data-r="1">' + esc(opts.ok || 'Aceptar') + '</button></div>';
+    var prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    $('dlg').classList.remove('hidden');
+    function cerrar(v) {
+      $('dlg').classList.add('hidden'); document.body.style.overflow = prevOverflow;
+      $('dlg').onclick = null; resolve(v);
+    }
+    Array.prototype.forEach.call(card.querySelectorAll('button'), function (b) {
+      b.onclick = function (ev) { ev.stopPropagation(); cerrar(b.getAttribute('data-r') === '1'); };
+    });
+    $('dlg').onclick = function (ev) { if (ev.target === $('dlg') && opts.cancelar !== false) cerrar(false); };
+    card.querySelector('[data-r="1"]').focus();
+  });
+}
+function closeModal() { $('modal').classList.add('hidden'); document.body.style.overflow = ''; }
+
+// ── inicio / login ──
+function init() {
+  try { draft = JSON.parse(lsGet(LS_DRAFT) || 'null'); } catch (e) { draft = null; }
+  state.token = lsGet(LS_TOKEN);
+  if (state.token) return cargarDatos();
+  if (API_URL) return show('vLogin'); // anónimo: no hay cuenta de Google que detectar
+  call('autoLogin').then(function (r) {
+    if (r && r.ok) { state.token = r.token; lsSet(LS_TOKEN, r.token); cargarDatos(); }
+    else show('vLogin');
+  }).catch(function () { show('vLogin'); });
+}
+
+function doLogin() {
+  var email = $('lEmail').value.trim(), pin = $('lPin').value.trim();
+  $('lBtn').disabled = true; $('lMsg').innerHTML = '';
+  call('login', email, pin).then(function (r) {
+    $('lBtn').disabled = false;
+    if (!r.ok) { $('lMsg').innerHTML = '<div class="msg err">' + esc(r.msg) + '</div>'; return; }
+    state.token = r.token; lsSet(LS_TOKEN, r.token); $('lPin').value = '';
+    cargarDatos();
+  }).catch(function (e) { $('lBtn').disabled = false; $('lMsg').innerHTML = '<div class="msg err">Error de conexión: ' + esc(e.message) + '</div>'; });
+}
+
+function logout() {
+  (draft ? dialogo({ titulo: 'Hoja sin enviar', html: 'Hay una hoja de puntaje sin enviar. Se conservará en este celular y podrá retomarla al volver a ingresar.<br><br>¿Salir igual?', ok: 'Salir', cancelar: 'Quedarme' })
+    : Promise.resolve(true)).then(function (ok) {
+    if (!ok) return;
+    lsSet(LS_TOKEN, null); state.token = null; $('who').classList.add('hidden'); show('vLogin');
+  });
+}
+
+function cargarDatos() {
+  show('vLoading');
+  call('getDatosIniciales', state.token).then(function (r) {
+    if (sesionPerdida(r)) return;
+    state.arbitro = r.arbitro; state.rondas = r.rondas; state.equipos = r.equipos;
+    state.asig = miAsignacion(r.arbitro.nombre);
+    if (state.asig) state.mesa = state.asig.mesa; // por defecto su mesa; puede elegir otra
+    $('whoName').textContent = r.arbitro.nombre; $('who').classList.remove('hidden');
+    var saved = lsGet(LS_RONDA);
+    if (!state.ronda) state.ronda = state.rondas.indexOf(saved) >= 0 ? saved : state.rondas[0];
+    if (draft) { abrirHoja(); return; }
+    irASeleccion();
+  }).catch(function (e) {
+    show('vLogin'); $('lMsg').innerHTML = '<div class="msg err">No se pudo cargar: ' + esc(e.message) + '</div>';
+  });
+}
+
+// ── selección ──
+function irASeleccion() {
+  show('vSelect');
+  renderRondas(); renderMesas(); renderTeams(); refrescarEstado(); cargarMisRegistros();
+}
+function rondaNum(nombre) { var m = String(nombre || '').match(/(\d+)/); return m ? Number(m[1]) : null; }
+/** Mesa y lado del árbitro según la web del torneo (ARB: [rojo, azul] por mesa), comparando nombres sin tildes. */
+function normNombre(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+function miAsignacion(nombre) {
+  if (!TORNEO || !TORNEO.arb) return null;
+  var n = normNombre(nombre); if (!n) return null;
+  for (var m in TORNEO.arb) {
+    for (var i = 0; i < 2; i++) {
+      if (normNombre(TORNEO.arb[m][i]) === n) return { mesa: Number(m), lado: i === 0 ? 'rojo' : 'azul' };
+    }
+  }
+  return null;
+}
+function hhmm(min) { return Math.floor(min / 60) + ':' + String(min % 60).padStart(2, '0'); }
+function renderMesas() {
+  if (!TORNEO) return;
+  $('mesaWrap').classList.remove('hidden');
+  var opts = [[0, 'Todas'], [1, 'Mesa 1'], [2, 'Mesa 2'], [3, 'Mesa 3'], [4, 'Mesa 4'], [5, 'Mesa 5']];
+  var a = state.asig;
+  $('mesas').innerHTML = opts.map(function (o) {
+    var mia = a && a.mesa === o[0];
+    return '<button class="chip' + (o[0] === state.mesa ? ' on' : '') + '" data-m="' + o[0] + '">' + o[1] + (mia ? ' <span class="star">★</span>' : '') + '</button>';
+  }).join('');
+  var info = $('asigInfo');
+  if (a) {
+    info.classList.remove('hidden');
+    info.innerHTML = '<span class="dot ' + a.lado + '"></span><span>Tu mesa: <b>Mesa ' + a.mesa + '</b> · lado ' + a.lado + '</span>' +
+      (state.mesa !== a.mesa ? '<button class="volver" id="volverMesa">Volver a mi mesa</button>' : '');
+    if ($('volverMesa')) $('volverMesa').onclick = function () { state.mesa = a.mesa; renderMesas(); renderTeams(); };
+  } else info.classList.add('hidden');
+  Array.prototype.forEach.call($('mesas').querySelectorAll('.chip'), function (b) {
+    b.onclick = function () { state.mesa = Number(b.getAttribute('data-m')); lsSet(LS_MESA, String(state.mesa)); renderMesas(); renderTeams(); };
+  });
+}
+/** Equipos que juegan en la mesa elegida durante la ronda elegida, según la web del torneo. */
+function renderMesaTeams() {
+  var el = $('mesaTeams'), r = rondaNum(state.ronda);
+  $('listaH').classList.toggle('hidden', !(TORNEO && state.mesa && r));
+  if (!TORNEO || !state.mesa || !r) { el.innerHTML = ''; return; }
+  var nombre = {}; TORNEO.teams.forEach(function (t) { nombre[String(t[0])] = t[1] || t[2]; });
+  var enHoja = {}; state.equipos.forEach(function (e) { enHoja[e.numero] = true; });
+  var turnos = TORNEO.turns.filter(function (t) { return t[1] === r; }).sort(function (a, b) { return a[2] - b[2]; });
+  var html = '';
+  turnos.forEach(function (t) {
+    var fila = t[4].filter(function (x) { return x[0] === state.mesa; })[0];
+    if (!fila) return;
+    function lado(cls, txt, num) {
+      if (num === null || num === undefined || num === 'None') return '<div></div>';
+      var n = String(num), d = state.estado[n], ok = enHoja[n];
+      var a = state.asig, enMiMesa = a && a.mesa === state.mesa, mio = enMiMesa && a.lado === cls;
+      var extra = enMiMesa ? (mio ? ' mio' : ' otro') : '';
+      return '<button class="side-btn ' + cls + extra + '" data-n="' + esc(n) + '"' + (ok ? '' : ' disabled') + '>' + (mio ? '<span class="tu">Tu lado</span>' : '') + '<span class="lado">' + txt + '</span>' +
+        '<span class="n">' + esc(n) + '</span><span class="nm">' + esc(nombre[n] || '') + '</span>' +
+        (d ? '<span class="ok">✓ ' + esc(d.puntaje) + ' pts</span>' : '') + (ok ? '' : '<span class="nm">No está en la hoja Equipos</span>') + '</button>';
+    }
+    html += '<div class="turno"><div class="turno-h">Mitad ' + esc(t[0]) + ' · ' + hhmm(t[2]) + '–' + hhmm(t[2] + t[3]) + '</div><div class="sides2">' +
+      lado('rojo', 'Lado rojo', fila[1]) + lado('azul', 'Lado azul', fila[2]) + '</div></div>';
+  });
+  el.innerHTML = html || '<div class="help">Sin partidas en esta mesa para ' + esc(state.ronda) + '.</div>';
+  Array.prototype.forEach.call(el.querySelectorAll('.side-btn'), function (b) {
+    b.onclick = function () { elegirEquipo(b.getAttribute('data-n')); };
+  });
+}
+function renderRondas() {
+  $('rondas').innerHTML = state.rondas.map(function (r) {
+    return '<button class="chip' + (r === state.ronda ? ' on' : '') + '" data-r="' + esc(r) + '">' + esc(r) + '</button>';
+  }).join('') || '<span class="help">No hay rondas configuradas.</span>';
+  Array.prototype.forEach.call($('rondas').querySelectorAll('.chip'), function (b) {
+    b.onclick = function () { state.ronda = b.getAttribute('data-r'); lsSet(LS_RONDA, state.ronda); state.estado = {}; renderRondas(); renderTeams(); refrescarEstado(); };
+  });
+}
+function refrescarEstado() {
+  var ronda = state.ronda; if (!ronda) return;
+  $('estadoMsg').innerHTML = '<span class="spinner" style="width:14px;height:14px;border-width:2px"></span> actualizando…';
+  call('getEstadoRonda', state.token, ronda).then(function (r) {
+    if (sesionPerdida(r) || ronda !== state.ronda) return;
+    state.estado = r.equipos;
+    var n = Object.keys(r.equipos).length;
+    $('estadoMsg').textContent = n + ' de ' + state.equipos.length + ' equipos con puntaje en ' + ronda + '.';
+    renderTeams();
+  }).catch(function () { $('estadoMsg').textContent = 'No se pudo actualizar el estado.'; });
+}
+function renderTeams() {
+  renderMesaTeams();
+  var q = $('buscar').value.trim().toLowerCase();
+  var list = state.equipos.filter(function (e) { return !q || (e.numero + ' ' + e.nombre).toLowerCase().indexOf(q) >= 0; });
+  $('teams').innerHTML = list.map(function (e) {
+    var d = state.estado[e.numero];
+    return '<button class="team' + (d ? ' scored' : '') + '" data-n="' + esc(e.numero) + '"><span class="num">#' + esc(e.numero) + '</span><span class="nm">' + esc(e.nombre) + '</span>' +
+      (d ? '<span class="done">✓ ' + esc(d.puntaje) + '</span>' : '') + '</button>';
+  }).join('') || '<div class="help">Sin equipos.</div>';
+  Array.prototype.forEach.call($('teams').querySelectorAll('.team'), function (b) {
+    b.onclick = function () { elegirEquipo(b.getAttribute('data-n')); };
+  });
+}
+function elegirEquipo(num) {
+  var e = state.equipos.filter(function (x) { return x.numero === num; })[0];
+  var d = state.estado[num];
+  (d ? dialogo({
+    titulo: 'Equipo ya registrado',
+    html: 'El equipo <b>#' + esc(num) + ' · ' + esc(e.nombre) + '</b> ya tiene <b>' + esc(d.puntaje) + ' pts</b> en <b>' + esc(state.ronda) + '</b> (árbitro: ' + esc(d.arbitro) + ').<br><br>¿Registrar un nuevo puntaje? Al enviar se pedirá confirmar el reemplazo.',
+    ok: 'Registrar nuevo', cancelar: 'Volver'
+  }) : Promise.resolve(true)).then(function (ok) {
+    if (!ok) return;
+    draft = { submissionId: uuid(), ronda: state.ronda, equipo: e, valores: { gp: SCORING.gp.defaultValue }, notas: '', intentado: false };
+    saveDraft(); abrirHoja();
+  });
+}
+function cargarMisRegistros() {
+  call('getMisRegistros', state.token).then(function (r) {
+    if (!r.ok) return;
+    $('misRegs').innerHTML = r.registros.length ? r.registros.map(function (x) {
+      return '<div class="reg"><div><b>#' + esc(x.numero) + '</b> ' + esc(x.equipo) + '<div class="st">' + esc(x.ronda) + ' · ' + esc(x.fecha) +
+        (x.estado !== 'Válido' ? ' · ' + esc(x.estado) : '') + '</div></div><div class="p">' + esc(x.puntaje) + ' <small>pts</small></div></div>';
+    }).join('') : 'Aún no registra puntajes.';
+  }).catch(function () {});
+}
+
+// ── hoja de puntaje ──
+function saveDraft() { lsSet(LS_DRAFT, draft ? JSON.stringify(draft) : null); }
+function touch() {
+  // Si ya se intentó enviar y luego se cambia algo, es un envío distinto.
+  if (draft.intentado) { draft.submissionId = uuid(); draft.intentado = false; }
+  saveDraft(); updateScore();
+}
+function abrirHoja() {
+  show('vScore');
+  $('sTeam').textContent = '#' + draft.equipo.numero + ' · ' + draft.equipo.nombre;
+  $('sRound').textContent = draft.ronda + ' · ' + (state.arbitro ? state.arbitro.nombre : '');
+  $('notas').value = draft.notas || '';
+  $('draftMsg').innerHTML = draft.intentado ? '<div class="msg warn">Esta hoja no se confirmó como enviada. Revise y vuelva a enviar.</div>' : '';
+  renderForm(); updateScore();
+}
+function cancelScore() {
+  dialogo({ titulo: '¿Descartar hoja?', html: 'Se perderán los valores ingresados para <b>#' + esc(draft.equipo.numero) + ' · ' + esc(draft.equipo.nombre) + '</b>.', ok: 'Descartar', cancelar: 'Seguir editando', peligro: true })
+    .then(function (ok) { if (!ok) return; draft = null; saveDraft(); irASeleccion(); });
+}
+
+function renderForm() {
+  var v = draft.valores, html = '';
+  SCORING.sections.forEach(function (s) {
+    html += '<section class="card fx">' + LEAF_SVG + '<div class="band"><b>' + esc(s.badge) + '</b><span class="pts" id="pts_' + s.id + '">0 pts</span></div>' +
+      (s.id !== 'PEN' ? '<div class="title">' + esc(s.name) + '</div><div class="en">' + esc(s.en) + (s.intro ? ' · ' + esc(s.intro) : '') + '</div>' : '');
+    s.criteria.forEach(function (c) {
+      html += '<div class="crit" id="c_' + c.id + '"><div class="lab">' + esc(c.label) + '<div class="en">' + esc(c.en) + '</div></div>' + control(c, v[c.id]) + '</div>';
+    });
+    html += '</section>';
+  });
+  var g = SCORING.gp;
+  html += '<section class="card fx">' + LEAF_SVG + '<div class="band"><b>GP</b><span class="pts">no suma</span></div>' +
+    '<div class="title">' + esc(g.label) + '</div><div class="en">' + esc(g.help) + '</div><div class="crit">' +
+    '<div class="seg gp-seg" data-id="gp">' + g.levels.map(function (l) {
+      return '<button data-v="' + l.value + '"' + (Number(v.gp) === l.value ? ' class="on"' : '') + '><span>' + l.value + '</span>' + esc(l.label) + '</button>';
+    }).join('') + '</div></div></section>';
+  $('form').innerHTML = html;
+  wire();
+}
+function control(c, val) {
+  if (c.type === 'choice') {
+    var b = '';
+    for (var i = 0; i <= c.max; i++) b += '<button data-v="' + i + '"' + ((val || 0) === i ? ' class="on"' : '') + '>' + (i === c.max ? esc(c.lastLabel || (i + '+')) : i) + '</button>';
+    return '<div class="seg" data-id="' + c.id + '">' + b + '</div>';
+  }
+  if (c.type === 'counter') {
+    return '<div class="step" data-id="' + c.id + '" data-max="' + c.max + '"><button data-d="-1" aria-label="menos">−</button>' +
+      '<input type="number" inputmode="numeric" min="0" max="' + c.max + '" value="' + (val || 0) + '"><button data-d="1" aria-label="más">+</button></div>';
+  }
+  if (c.type === 'yesno' || c.type === 'bonus') {
+    return '<div class="seg" data-id="' + c.id + '" data-bool="1"><button data-v="false"' + (!val ? ' class="on"' : '') + '>No</button>' +
+      '<button data-v="true"' + (val ? ' class="on"' : '') + '>Sí</button></div>' +
+      (c.type === 'bonus' ? '<div class="help">' + esc(c.help) + '</div><div class="help" data-dis="' + c.id + '" style="color:var(--warn)">' + esc(c.disabledHelp) + '</div>' : '');
+  }
+  if (c.type === 'penalty') {
+    return '<div class="seg pen" data-id="' + c.id + '">' + c.tiers.map(function (t) {
+      return '<button data-v="' + t.value + '"' + ((val || 0) === t.value ? ' class="on"' : '') + '>' + esc(t.label) + '</button>';
+    }).join('') + '</div>';
+  }
+  return '';
+}
+function wire() {
+  Array.prototype.forEach.call($('form').querySelectorAll('.seg'), function (seg) {
+    var id = seg.getAttribute('data-id'), isBool = seg.getAttribute('data-bool');
+    Array.prototype.forEach.call(seg.querySelectorAll('button'), function (b) {
+      b.onclick = function () {
+        var raw = b.getAttribute('data-v');
+        draft.valores[id] = isBool ? raw === 'true' : Number(raw);
+        Array.prototype.forEach.call(seg.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+        touch();
+      };
+    });
+  });
+  Array.prototype.forEach.call($('form').querySelectorAll('.step'), function (st) {
+    var id = st.getAttribute('data-id'), max = Number(st.getAttribute('data-max')), inp = st.querySelector('input');
+    function set(n) { n = Math.max(0, Math.min(max, isFinite(n) ? n : 0)); inp.value = n; draft.valores[id] = n; touch(); }
+    Array.prototype.forEach.call(st.querySelectorAll('button'), function (b) {
+      b.onclick = function () { set((Number(inp.value) || 0) + Number(b.getAttribute('data-d'))); };
+    });
+    inp.oninput = function () { var n = parseInt(inp.value.replace(/\D/g, ''), 10); draft.valores[id] = Math.max(0, Math.min(max, n || 0)); touch(); };
+    inp.onblur = function () { set(parseInt(inp.value, 10) || 0); };
+    inp.onfocus = function () { inp.select(); };
+  });
+}
+function updateScore() {
+  var r = calcularPuntaje(SCORING, draft.valores);
+  $('sVal').textContent = r.total;
+  $('sBox').classList.toggle('zero', r.matchZero);
+  SCORING.sections.forEach(function (s, i) {
+    var el = $('pts_' + s.id); if (!el) return;
+    var p = r.sections[i].score;
+    el.textContent = s.id === 'PEN' && r.matchZero ? 'Partida = 0' : (p > 0 ? '+' : '') + p + ' pts';
+  });
+  // Bono: deshabilitar si no corresponde
+  SCORING.sections.forEach(function (s) {
+    s.criteria.forEach(function (c) {
+      if (c.type !== 'bonus') return;
+      var on = (draft.valores[c.enabledWhen.field] || 0) >= c.enabledWhen.min;
+      var seg = document.querySelector('.seg[data-id="' + c.id + '"]');
+      if (!seg) return;
+      Array.prototype.forEach.call(seg.querySelectorAll('button'), function (b) { b.disabled = !on; });
+      if (!on && draft.valores[c.id]) {
+        draft.valores[c.id] = false; saveDraft();
+        Array.prototype.forEach.call(seg.querySelectorAll('button'), function (b) { b.classList.toggle('on', b.getAttribute('data-v') === 'false'); });
+      }
+      var dis = document.querySelector('[data-dis="' + c.id + '"]');
+      if (dis) dis.classList.toggle('hidden', on);
+    });
+  });
+  return r;
+}
+
+// ── revisión y envío ──
+function fmtVal(c, v) {
+  if (c.type === 'yesno' || c.type === 'bonus') return v ? 'Sí' : 'No';
+  if (c.type === 'penalty') return c.tiers.filter(function (t) { return t.value === v; })[0].label;
+  if (c.type === 'choice' && v === c.max && c.lastLabel) return c.lastLabel;
+  return v;
+}
+var LEAF_SVG = '<svg class="leaf" viewBox="0 0 120 70" aria-hidden="true"><g fill="var(--fll-leaf)">' +
+  '<path d="M60 70C44 48 46 20 70 2c14 24 10 50-10 68z"/><path d="M57 70C32 64 14 46 10 24c28 4 44 22 47 46z"/>' +
+  '<path d="M63 70c14-18 34-28 54-30-6 20-28 32-54 30z"/><path d="M52 70C40 60 30 58 18 60c8 10 20 12 34 10z"/></g>' +
+  '<g fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.5"><path d="M60 68C61 46 64 26 69 6"/><path d="M56 68C44 54 30 40 13 26"/><path d="M64 68c16-12 32-20 51-27"/></g></svg>';
+
+function openReview() {
+  var r = updateScore(), body = '';
+  function tile(label, val, cls) {
+    return '<div class="tile' + (cls === 'zero' ? ' zero' : '') + '"><div class="n ' + (cls || '') + '">' + esc(val) + '</div><div class="t">' + esc(label) + '</div></div>';
+  }
+  function mision(band, pts, title, tiles) {
+    return '<div class="rv-mis">' + LEAF_SVG + '<div class="band"><b>' + esc(band) + '</b><span class="pts">' + esc(pts) + '</span></div>' +
+      (title ? '<div class="title">' + esc(title) + '</div>' : '<div style="height:10px"></div>') + '<div class="rv-grid">' + tiles + '</div></div>';
+  }
+  SCORING.sections.forEach(function (s, i) {
+    var pts = r.sections[i].score, tiles = '';
+    s.criteria.forEach(function (c) {
+      var v = r.values[c.id];
+      if (c.type === 'penalty') {
+        var tier = c.tiers.filter(function (t) { return t.value === v; })[0];
+        tiles += tile(c.label + (v ? ' · ' + (tier.matchZero ? 'partida = 0' : tier.points + ' pts') : ''), v === c.max ? '3+' : v, v ? 'zero' : 'off');
+      } else if (c.type === 'yesno' || c.type === 'bonus') {
+        tiles += tile(c.label, v ? 'Sí' : 'No', v ? 'yes' : 'off');
+      } else {
+        tiles += tile(c.label, fmtVal(c, v), v ? '' : 'off');
+      }
+    });
+    var ptsTxt = s.id === 'PEN' && r.matchZero ? 'Partida = 0' : (pts > 0 ? '+' : '') + pts + ' pts';
+    body += mision(s.badge, ptsTxt, s.id === 'PEN' ? '' : s.name, tiles);
+  });
+  var gpl = SCORING.gp.levels.filter(function (l) { return l.value === r.values.gp; })[0];
+  body += mision('GP', 'no suma', 'Gracious Professionalism®', tile(gpl.label + ' · ' + gpl.en, gpl.value, 'yes'));
+  modal('<div class="mh"><h2>Confirmar puntaje</h2><div class="help">#' + esc(draft.equipo.numero) + ' · ' + esc(draft.equipo.nombre) + ' · ' + esc(draft.ronda) + '</div>' +
+    '<div class="big">' + r.total + '<small>PUNTOS</small></div>' + (r.matchZero ? '<div class="msg err">3+ penalizaciones: el puntaje de la partida es 0.</div>' : '') +
+    '<div class="help">Muestre este resumen al equipo antes de enviar.</div></div>' +
+    '<div class="mb">' + body +
+    '<div class="firma" id="firmaBox"><div class="firma-h">Firma del equipo<button class="firma-borrar" onclick="borrarFirma()">Borrar</button></div>' +
+    '<canvas id="firmaCanvas" class="firma-pad" aria-label="Recuadro para firmar con el dedo"></canvas>' +
+    '<div class="help">El líder del equipo firma con el dedo para confirmar que está de acuerdo con el puntaje.</div>' +
+    '<label class="nofirma"><input type="checkbox" id="sinFirma" onchange="actualizarFirmaUI()"> El equipo no firma</label></div></div>' +
+    '<div class="mf"><div id="sendMsg"></div><div style="display:flex;gap:10px"><button class="btn" style="flex:1" onclick="closeModal()">Corregir</button>' +
+    '<button class="btn primary" style="flex:1" id="sendBtn" onclick="confirmarEnvio()">Confirmar y enviar</button></div></div>');
+  firmaEnvio = null;
+  initFirma();
+}
+
+// ── firma del equipo (canvas, dedo o lápiz) ──
+var pad = null, firmaEnvio = null;
+function initFirma() {
+  var c = $('firmaCanvas'); if (!c) return;
+  var dpr = Math.max(1, window.devicePixelRatio || 1), r = c.getBoundingClientRect();
+  c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr);
+  var ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr); ctx.lineWidth = 2.8; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = ctx.fillStyle = '#111';
+  pad = { c: c, ctx: ctx, trazos: 0, last: null };
+  function pt(e) { var b = c.getBoundingClientRect(); return { x: e.clientX - b.left, y: e.clientY - b.top }; }
+  c.onpointerdown = function (e) {
+    e.preventDefault(); try { c.setPointerCapture(e.pointerId); } catch (x) {}
+    pad.last = pt(e); ctx.beginPath(); ctx.arc(pad.last.x, pad.last.y, 1.4, 0, Math.PI * 2); ctx.fill();
+    pad.trazos++; actualizarFirmaUI();
+  };
+  c.onpointermove = function (e) {
+    if (!pad.last) return; e.preventDefault();
+    var p = pt(e); ctx.beginPath(); ctx.moveTo(pad.last.x, pad.last.y); ctx.lineTo(p.x, p.y); ctx.stroke(); pad.last = p;
+  };
+  c.onpointerup = c.onpointercancel = c.onpointerleave = function () { pad.last = null; };
+  actualizarFirmaUI();
+}
+function borrarFirma() {
+  if (!pad) return;
+  pad.ctx.save(); pad.ctx.setTransform(1, 0, 0, 1, 0, 0); pad.ctx.clearRect(0, 0, pad.c.width, pad.c.height); pad.ctx.restore();
+  pad.trazos = 0; actualizarFirmaUI();
+}
+function actualizarFirmaUI() {
+  var box = $('firmaBox'); if (!box || !pad) return;
+  var sin = $('sinFirma').checked;
+  box.classList.toggle('off', sin);
+  box.classList.toggle('ok', !sin && pad.trazos > 0);
+  if ((sin || pad.trazos > 0) && box.classList.contains('falta')) { box.classList.remove('falta'); $('sendMsg').innerHTML = ''; }
+}
+/** PNG reducido (máx. 400 px, blanco y negro puro) para que quepa holgado en una celda. */
+function firmaPng() {
+  var w = Math.min(400, pad.c.width), h = Math.round(w * pad.c.height / pad.c.width);
+  var o = document.createElement('canvas'); o.width = w; o.height = h;
+  var x = o.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(pad.c, 0, 0, w, h);
+  var img = x.getImageData(0, 0, w, h), d = img.data;
+  for (var i = 0; i < d.length; i += 4) { var v = (d[i] + d[i + 1] + d[i + 2]) / 3 < 170 ? 0 : 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+  x.putImageData(img, 0, 0);
+  return o.toDataURL('image/png');
+}
+function confirmarEnvio() {
+  var sin = $('sinFirma') && $('sinFirma').checked;
+  if (!sin && (!pad || pad.trazos === 0)) {
+    $('firmaBox').classList.add('falta');
+    $('firmaBox').scrollIntoView({ block: 'center', behavior: 'smooth' });
+    $('sendMsg').innerHTML = '<div class="msg err">Falta la firma del equipo (o marque "El equipo no firma").</div>';
+    return;
+  }
+  $('sendMsg').innerHTML = '';
+  firmaEnvio = sin ? { sinFirma: true, firma: null } : { sinFirma: false, firma: firmaPng() };
+  enviar();
+}
+
+function enviar(reemplazarId, intento) {
+  if (sending) return;
+  sending = true; intento = intento || 1;
+  draft.intentado = true; saveDraft();
+  var btn = $('sendBtn'); if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Enviando…'; }
+  var payload = { submissionId: draft.submissionId, ronda: draft.ronda, equipo: draft.equipo.numero, valores: draft.valores, notas: draft.notas, reemplazarId: reemplazarId || null,
+    firma: firmaEnvio ? firmaEnvio.firma : null, sinFirma: !!(firmaEnvio && firmaEnvio.sinFirma) };
+  call('guardarPuntaje', state.token, payload).then(function (r) {
+    sending = false;
+    if (sesionPerdida(r)) { closeModal(); return; }
+    if (r.ok) return exito(r);
+    if (r.reintentar && intento < 4) { setTimeout(function () { enviar(reemplazarId, intento + 1); }, 1500 * intento); sending = false; return; }
+    if (r.conflicto) return conflicto(r);
+    fallo(r.msg);
+  }).catch(function (e) {
+    sending = false;
+    if (intento < 3) { setTimeout(function () { enviar(reemplazarId, intento + 1); }, 2000 * intento); return; }
+    fallo('Sin conexión o error del servidor (' + e.message + '). La hoja queda guardada en este celular; puede reintentar sin riesgo de duplicar.');
+  });
+}
+function fallo(msg) {
+  var btn = $('sendBtn'); if (btn) { btn.disabled = false; btn.textContent = 'Reintentar envío'; }
+  if ($('sendMsg')) $('sendMsg').innerHTML = '<div class="msg err">' + esc(msg) + '</div>';
+}
+function conflicto(r) {
+  var ex = r.existente;
+  modal('<h2>Ya existe un puntaje</h2><div class="msg warn">El equipo <b>#' + esc(draft.equipo.numero) + '</b> ya tiene <b>' + esc(ex.puntaje) + ' pts</b> en <b>' + esc(draft.ronda) +
+    '</b>, registrado por ' + esc(ex.arbitro) + ' (' + esc(ex.fecha) + ').</div>' +
+    '<p>¿Reemplazar ese puntaje por el nuevo (<b>' + calcularPuntaje(SCORING, draft.valores).total + ' pts</b>)? El anterior quedará marcado como "Reemplazado" en la planilla.</p>' +
+    '<div id="sendMsg"></div><div style="display:flex;gap:10px"><button class="btn" style="flex:1" onclick="closeModal()">No, volver</button>' +
+    '<button class="btn primary" style="flex:1" id="sendBtn" onclick="enviar(\'' + esc(ex.id) + '\')">Sí, reemplazar</button></div>');
+}
+function exito(r) {
+  var eq = draft.equipo, ronda = draft.ronda;
+  draft = null; saveDraft(); firmaEnvio = null;
+  if (state.estado) state.estado[eq.numero] = { puntaje: r.total, arbitro: state.arbitro.nombre };
+  modal('<div style="text-align:center"><div style="font-size:42px">✅</div><h2>Puntaje guardado</h2><div class="help">#' + esc(eq.numero) + ' · ' + esc(eq.nombre) + ' · ' + esc(ronda) + '</div>' +
+    '<div class="big">' + esc(r.total) + '</div>' + (r.reemplazo ? '<div class="msg ok">Se reemplazó el puntaje anterior.</div>' : '') +
+    '<button class="btn primary block" onclick="closeModal();irASeleccion()">Siguiente equipo</button></div>');
+}
+
+$('lPin').addEventListener('keydown', function (e) { if (e.key === 'Enter') doLogin(); });
+init();
+</script>
+</body>
+</html>
